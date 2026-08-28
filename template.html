@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LOOMI · חברים קטנים שנעשים בעבודת יד</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Assistant:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#F7F3EC; --cream:#EFE9DE; --oat:#E6DCCB; --beige:#D9CBB6;
+  --brown:#8B6F52; --brown-deep:#6B5540; --charcoal:#2B2622; --ink:#3A332C;
+  --muted:#8A7F70; --clay:#B67A5E; --line:#E2D8C7; --white:#FFFFFF;
+  --shadow-s:0 4px 18px rgba(60,45,30,.06);
+  --shadow-m:0 18px 50px rgba(60,45,30,.12);
+  --serif:'Frank Ruhl Libre','David Libre',Georgia,serif;
+  --serif-en:'Cormorant Garamond',Georgia,serif;
+  --sans:'Assistant','Heebo','Segoe UI',system-ui,sans-serif;
+  --maxw:1240px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--ivory);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.en{direction:ltr}
+h1,h2,h3,.serif{font-family:var(--serif);font-weight:500;letter-spacing:-.01em;line-height:1.15}
+body.en h1,body.en h2,body.en h3{font-family:var(--serif-en);letter-spacing:0}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+.eyebrow{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--clay);font-weight:600}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:9px;padding:15px 30px;border-radius:100px;font-weight:600;font-size:.98rem;transition:transform .18s,box-shadow .2s,background .2s;white-space:nowrap}
+.btn-primary{background:var(--charcoal);color:var(--ivory)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:var(--shadow-m)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--charcoal)}
+.btn-ghost:hover{background:var(--charcoal);color:var(--ivory)}
+.btn-wa{background:#1FA855;color:#fff}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(31,168,85,.28)}
+.btn-block{width:100%;justify-content:center}
+
+/* header */
+header{position:fixed;top:0;inset-inline:0;z-index:100;transition:background .3s,box-shadow .3s}
+header.scrolled{background:rgba(247,243,236,.92);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:74px}
+.logo{font-family:var(--serif);font-size:1.5rem;font-weight:700;letter-spacing:.06em;display:flex;align-items:center;gap:10px;cursor:pointer;justify-self:center}
+.logo .mark{width:30px;height:30px;border-radius:50%;background:var(--charcoal);color:var(--ivory);display:grid;place-items:center;font-size:.9rem;font-family:var(--sans)}
+.nav-right{display:flex;align-items:center;gap:20px;justify-self:right}
+.lang{display:flex;align-items:center;gap:7px;font-size:.82rem;font-weight:600;color:var(--muted)}
+.lang button.active{color:var(--charcoal);text-decoration:underline;text-underline-offset:4px}
+.cart-btn{position:relative;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:none;border:none;cursor:pointer;color:var(--charcoal);transition:background .2s,transform .2s}
+.cart-btn:hover{background:rgba(43,38,34,.06);transform:translateY(-1px)}
+.cart-ico{display:block}
+.cart-count{position:absolute;top:-9px;inset-inline-start:-11px;background:var(--clay);color:#fff;font-size:.66rem;min-width:17px;height:17px;border-radius:50%;display:grid;place-items:center;font-weight:700;opacity:0;transform:scale(.5);transition:.2s}
+.cart-count.show{opacity:1;transform:scale(1)}
+.burger{display:flex;flex-direction:column;gap:5px;justify-self:left;padding:8px;cursor:pointer;background:none;border:none}
+/* RTL flips grid columns, so pin the burger to the physical left and the
+   lang/cart group to the physical right. grid-row:1 is required — assigning
+   columns out of DOM order otherwise pushes each item onto its own row. */
+[dir=rtl] .nav>.burger{grid-column:3;grid-row:1;justify-self:left}
+[dir=rtl] .nav>.logo{grid-column:2;grid-row:1}
+[dir=rtl] .nav>.nav-right{grid-column:1;grid-row:1;justify-self:right}
+.burger span{width:24px;height:2px;background:var(--charcoal);border-radius:2px;transition:transform .25s,width .25s}
+.burger:hover span:nth-child(1){width:16px}
+.burger:hover span:nth-child(3){width:18px}
+
+/* hero */
+/* Keeps a section's heading clear of the fixed header for any scroll path
+   (JS scrollToSection, scrollIntoView, or a plain #anchor jump). */
+section[id]{scroll-margin-top:96px}
+
+/* hero: copy first, photo underneath (single column, centered) */
+.hero{display:block;text-align:center;padding:104px 0 70px}
+.hero h1{font-size:clamp(2.6rem,5.2vw,4.2rem);margin:22px 0 22px}
+.hero-sub{font-size:1.18rem;color:var(--brown-deep);max-width:44ch;margin:0 auto 34px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.hero-photo{position:relative;border-radius:26px;overflow:hidden;box-shadow:var(--shadow-m);background:var(--cream);margin-top:52px}
+.hero-photo img{width:100%;height:auto;max-height:74vh;object-fit:cover;aspect-ratio:16/10;display:block}
+.hero-badge{position:absolute;bottom:22px;inset-inline-start:22px;background:rgba(247,243,236,.94);backdrop-filter:blur(6px);padding:10px 20px;border-radius:100px;font-family:var(--serif);font-size:1rem;color:var(--brown-deep);box-shadow:var(--shadow-s)}
+.trust-row{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;margin-top:30px;padding-top:24px;border-top:1px solid var(--line);max-width:640px;margin-inline:auto}
+.trust-row div{font-size:.88rem;color:var(--muted);display:flex;align-items:center;gap:7px}
+
+section{padding:clamp(64px,8vw,110px) 0}
+.sec-head{max-width:640px;margin:0 auto 54px;text-align:center}
+.sec-head h2{font-size:clamp(2rem,3.6vw,3rem);margin:14px 0 16px}
+.sec-head p{font-size:1.08rem;color:var(--muted)}
+
+/* friends */
+.friends{background:linear-gradient(180deg,var(--ivory),var(--cream))}
+.friend-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.friend-card{background:var(--white);border-radius:22px;overflow:hidden;box-shadow:var(--shadow-s);transition:transform .3s,box-shadow .3s;cursor:pointer;display:flex;flex-direction:column}
+.friend-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-m)}
+.friend-art{position:relative;aspect-ratio:1/1;overflow:hidden;background:var(--cream)}
+.friend-art img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.friend-card:hover .friend-art img{transform:scale(1.05)}
+.pair-tag{position:absolute;top:12px;inset-inline-start:12px;background:rgba(247,243,236,.94);padding:5px 13px;border-radius:100px;font-size:.72rem;font-weight:700;color:var(--brown-deep);letter-spacing:.04em}
+.quick-add{position:absolute;bottom:10px;inset-inline:10px;background:var(--charcoal);color:var(--ivory);border-radius:100px;padding:11px 14px;font-size:.84rem;font-weight:600;text-align:center;opacity:0;transform:translateY(6px);transition:.22s;display:flex;align-items:center;justify-content:center}
+.friend-card:hover .quick-add{opacity:1;transform:translateY(0)}
+.quick-add.added{background:#1FA855}
+.friend-info{padding:22px 22px 26px;text-align:center;border-top:1px solid var(--line)}
+.friend-info h3{font-size:1.55rem;margin-bottom:2px}
+.friend-info .role{color:var(--clay);font-weight:600;font-size:.92rem;margin-bottom:8px}
+.friend-info .blurb{font-size:.88rem;color:var(--muted);min-height:2.6em;margin-bottom:12px}
+.friend-info .price{font-size:1.02rem;font-weight:700;margin-bottom:12px}
+.friend-info .price small{color:var(--muted);font-weight:400;font-size:.78rem}
+.link-arrow{font-weight:600;font-size:.9rem;display:inline-flex;gap:6px;transition:.2s}
+.friend-card:hover .link-arrow{gap:11px}
+
+/* pairs band */
+.pairs{background:var(--ivory)}
+.pairs-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.pair-card{position:relative;border-radius:24px;overflow:hidden;box-shadow:var(--shadow-m)}
+.pair-card img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .5s}
+.pair-card:hover img{transform:scale(1.04)}
+.pair-cap{position:absolute;inset-inline:0;bottom:0;padding:44px 24px 20px;background:linear-gradient(transparent,rgba(43,38,34,.82));color:var(--ivory)}
+.pair-cap h3{font-size:1.5rem;color:var(--ivory);margin-bottom:3px}
+.pair-cap p{font-size:.9rem;opacity:.9}
+
+/* steps */
+.how-grid{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.step-circle{width:222px;height:222px;border-radius:50%;background:var(--white);border:1.5px solid var(--line);box-shadow:var(--shadow-s);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px}
+.step-label{font-size:.8rem;font-weight:700;letter-spacing:.12em;color:var(--clay);margin-bottom:9px}
+.step-circle h3{font-size:1.28rem;margin-bottom:8px}
+.step-circle p{font-size:.85rem;color:var(--muted);line-height:1.5;max-width:20ch}
+.step-arrow{font-size:2.1rem;color:var(--beige);line-height:1}
+
+/* craft */
+.craft{background:var(--cream)}
+.craft-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.craft-photo{border-radius:24px;overflow:hidden;box-shadow:var(--shadow-m)}
+.craft-photo img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.craft h2{font-size:clamp(2rem,3.6vw,2.8rem);margin:14px 0 18px}
+.craft p{color:var(--brown-deep);font-size:1.08rem;margin-bottom:14px}
+.craft-list{list-style:none;margin-top:22px;display:flex;flex-direction:column;gap:11px}
+.craft-list li{position:relative;padding-inline-start:24px;color:var(--brown-deep)}
+.craft-list li::before{content:'';position:absolute;inset-inline-start:0;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--clay)}
+
+/* story */
+.story{text-align:center}
+.story .wrap{max-width:720px}
+.story h2{font-size:clamp(2rem,3.6vw,3rem);margin:14px 0 30px}
+.story p{font-family:var(--serif);font-size:1.32rem;line-height:1.9;margin-bottom:20px}
+body.en .story p{font-family:var(--serif-en)}
+
+/* gift */
+.gift{background:linear-gradient(180deg,var(--cream),var(--ivory))}
+.gift-inner{display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center}
+.gift-box{aspect-ratio:1/1;border-radius:24px;background:linear-gradient(150deg,var(--beige),var(--oat));display:grid;place-items:center;box-shadow:var(--shadow-m)}
+.gift-lid{width:66%;aspect-ratio:1/.8;background:var(--white);border-radius:14px;box-shadow:var(--shadow-s);display:grid;place-items:center;position:relative}
+.ribbon{position:absolute;inset-inline:0;top:0;height:100%;width:16px;margin:auto;background:var(--clay);opacity:.85}
+.ribbon.h{width:100%;height:16px}
+.card-note{font-family:var(--serif);font-size:1.05rem;color:var(--brown-deep);z-index:2;background:var(--white);padding:3px 8px}
+.gift h2{font-size:clamp(2rem,3.6vw,2.8rem);margin:14px 0 18px}
+.gift p{color:var(--muted);font-size:1.06rem;margin-bottom:22px}
+.occasions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.chip{border:1px solid var(--line);background:var(--white);border-radius:100px;padding:9px 18px;font-size:.9rem;font-weight:500;cursor:pointer;transition:.18s;font-family:inherit;color:inherit}
+.chip:hover{border-color:var(--clay);color:var(--clay)}
+.chip.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--ivory)}
+
+/* footer */
+footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 28px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;margin-bottom:46px}
+.foot-col h4{font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;font-weight:600}
+.foot-col a{display:block;margin-bottom:10px;font-size:.95rem;cursor:pointer}
+.foot-col a:hover{color:var(--clay)}
+.foot-brand p{color:var(--muted);font-size:.94rem;max-width:32ch;margin-top:12px}
+.foot-bottom{display:flex;justify-content:space-between;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:.84rem;flex-wrap:wrap;gap:10px}
+
+/* whatsapp float */
+.wa-float{position:fixed;inset-block-end:22px;inset-inline-end:22px;z-index:80;display:flex;align-items:center;background:var(--white);box-shadow:var(--shadow-m);border-radius:100px;padding:9px;transition:.3s;overflow:hidden}
+.wa-float .ico{width:42px;height:42px;border-radius:50%;background:#1FA855;display:grid;place-items:center;flex:0 0 auto}
+.wa-float .txt{max-width:0;opacity:0;white-space:nowrap;font-weight:600;font-size:.9rem;transition:.3s;overflow:hidden}
+.wa-float:hover .txt{max-width:200px;opacity:1;padding-inline:12px 6px}
+
+/* product page */
+.pdp{padding-top:112px;padding-bottom:80px}
+.pdp-grid{display:grid;grid-template-columns:.85fr 1.05fr;gap:52px;align-items:start}
+.buy-panel{position:sticky;top:100px}
+.crumbs{font-size:.85rem;color:var(--muted);margin-bottom:16px}
+.crumbs span[data-nav]{cursor:pointer}
+.crumbs span[data-nav]:hover{color:var(--clay)}
+.pdp h1{font-size:clamp(2.3rem,4vw,3.2rem);margin-bottom:4px}
+.pdp .role{color:var(--clay);font-weight:600;font-size:1.04rem;margin-bottom:16px}
+.pdp .price-lg{font-size:1.45rem;font-weight:700;margin-bottom:20px}
+.pdp .desc-intro{color:var(--brown-deep);font-size:1.06rem;margin-bottom:16px;max-width:46ch}
+.pdp-bullets{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:28px}
+.pdp-bullets li{position:relative;padding-inline-start:22px;color:var(--brown-deep);font-size:1rem}
+.pdp-bullets li::before{content:'';position:absolute;inset-inline-start:0;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--clay)}
+.gallery{display:flex;flex-direction:column;gap:14px}
+.gallery-main{border-radius:24px;overflow:hidden;box-shadow:var(--shadow-s);background:var(--cream)}
+.gallery-main img{width:100%;aspect-ratio:1/1;object-fit:cover}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.thumb{aspect-ratio:1/1;border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:.2s;background:var(--cream)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb.active{border-color:var(--charcoal)}
+.pers-block{border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:20px;background:var(--white)}
+.pers-block .lbl{font-weight:700;font-size:1.04rem;margin-bottom:4px}
+.pers-block .hint{color:var(--muted);font-size:.88rem;margin-bottom:16px}
+.opt-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;transition:.2s;display:flex;flex-direction:column;gap:2px}
+.opt.active{border-color:var(--charcoal);background:var(--cream)}
+.opt .t{font-weight:600}
+.opt .s{font-size:.8rem;color:var(--muted)}
+.name-field{overflow:hidden;max-height:0;opacity:0;transition:.35s}
+.name-field.show{max-height:130px;opacity:1;margin-top:12px}
+.name-field input{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;font-family:inherit;font-size:1rem;outline:none;text-align:start}
+.name-field input:focus{border-color:var(--charcoal)}
+.name-field .cc{font-size:.76rem;color:var(--muted);margin-top:6px;text-align:end}
+.addon{display:flex;align-items:center;justify-content:space-between;padding:16px;border:1px solid var(--line);border-radius:14px;margin-bottom:20px;background:var(--white)}
+/* greeting-card picker, revealed when gift packaging is switched on */
+.card-field{max-height:0;opacity:0;overflow:hidden;transition:max-height .35s ease,opacity .3s ease,margin .35s ease;margin-bottom:0}
+.card-field.show{max-height:460px;opacity:1;margin-bottom:20px}
+.card-lbl{font-weight:600;font-size:.98rem;margin-bottom:10px}
+.card-opts{display:flex;flex-direction:column;gap:8px}
+.card-opt{display:flex;align-items:center;gap:11px;border:1.5px solid var(--line);border-radius:12px;padding:11px 14px;cursor:pointer;background:var(--white);transition:.18s;text-align:start;width:100%;font-family:inherit;color:inherit}
+.card-opt:hover{border-color:var(--beige)}
+.card-opt.active{border-color:var(--charcoal);background:var(--cream)}
+.card-opt .ico{font-size:1.15rem;flex:0 0 auto}
+.card-opt .body{display:flex;flex-direction:column;gap:1px;min-width:0}
+.card-opt .occ{font-size:.76rem;color:var(--clay);font-weight:600}
+.card-opt .msg{font-size:.92rem;font-weight:500}
+.card-preview{margin-top:12px;padding:14px 16px;border-radius:12px;background:var(--cream);border:1px dashed var(--beige);display:flex;flex-direction:column;gap:4px}
+.card-preview-lbl{font-size:.74rem;color:var(--muted);letter-spacing:.06em}
+.card-preview-txt{font-family:var(--serif);font-size:1.06rem;color:var(--brown-deep)}
+.addon-l{display:flex;gap:12px;align-items:flex-start}
+.addon-l .t{font-weight:600}
+.addon-l .s{font-size:.83rem;color:var(--muted)}
+.switch{width:46px;height:26px;border-radius:100px;background:var(--beige);position:relative;flex:0 0 auto;transition:.25s;cursor:pointer}
+.switch::after{content:'';position:absolute;top:3px;inset-inline-start:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.25s}
+.switch.on{background:#1FA855}
+.switch.on::after{inset-inline-start:23px}
+.total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;font-size:1.06rem}
+.total-row .amt{font-size:1.55rem;font-weight:700;font-family:var(--serif)}
+.reassure{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px;color:var(--muted);font-size:.84rem}
+.acc{margin-top:32px;border-top:1px solid var(--line)}
+.acc-item{border-bottom:1px solid var(--line)}
+.acc-head{width:100%;display:flex;justify-content:space-between;align-items:center;padding:19px 2px;font-weight:600;font-size:1.02rem;text-align:start}
+.acc-head .pm{font-size:1.4rem;color:var(--muted);transition:.25s}
+.acc-item.open .pm{transform:rotate(45deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .3s;color:var(--muted)}
+.acc-body p{padding:0 2px 19px}
+.sticky-buy{position:fixed;inset-block-end:0;inset-inline:0;z-index:70;background:rgba(247,243,236,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 18px;display:none;align-items:center;justify-content:space-between;gap:14px}
+
+/* cart */
+.overlay{position:fixed;inset:0;background:rgba(43,38,34,.4);opacity:0;pointer-events:none;transition:.3s;z-index:200}
+.overlay.show{opacity:1;pointer-events:auto}
+.drawer{position:fixed;inset-block:0;inset-inline-end:0;width:min(420px,100%);background:var(--ivory);z-index:210;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+[dir=rtl] .drawer{transform:translateX(-100%)}
+.drawer.show{transform:translateX(0)!important}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:24px;border-bottom:1px solid var(--line)}
+.drawer-body{flex:1;overflow-y:auto;padding:24px}
+.cart-empty{text-align:center;color:var(--muted);margin-top:60px}
+.cart-item{display:flex;gap:14px;padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+.ci-art{width:74px;height:74px;border-radius:14px;overflow:hidden;flex:0 0 auto;background:var(--cream)}
+.ci-art img{width:100%;height:100%;object-fit:cover}
+.ci-info{flex:1}
+.ci-info h4{font-size:1.06rem}
+.ci-meta{font-size:.8rem;color:var(--muted);margin:2px 0 6px}
+.ci-card{font-size:.78rem;color:var(--brown-deep);font-family:var(--serif);margin:0 0 6px;line-height:1.4}
+.ci-price{font-weight:600}
+.ci-remove{color:var(--muted);font-size:.78rem;text-decoration:underline;cursor:pointer}
+.drawer-foot{padding:24px;border-top:1px solid var(--line)}
+.drawer-foot .sum{display:flex;justify-content:space-between;font-size:1.16rem;font-weight:700;margin-bottom:6px}
+.ship-note{color:var(--muted);font-size:.8rem;margin-bottom:16px}
+.pay-note{color:var(--muted);font-size:.79rem;text-align:center;margin-top:10px}
+
+.view{display:none}.view.active{display:block}
+
+.mobile-menu{position:fixed;inset:0;background:var(--ivory);z-index:150;transform:translateY(-100%);transition:.35s;padding:90px 30px;display:flex;flex-direction:column;gap:8px}
+.mobile-menu.show{transform:translateY(0)}
+.mobile-menu a{font-family:var(--serif);font-size:1.8rem;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.mm-close{position:absolute;top:26px;inset-inline-end:26px;font-size:1.8rem}
+
+@media(max-width:1024px){
+  .friend-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:900px){
+  .hero{padding:92px 0 54px}
+  .hero-photo{margin-top:38px}
+  .hero-photo img{aspect-ratio:4/3}
+  .pairs-grid,.craft-inner,.gift-inner,.pdp-grid{grid-template-columns:1fr;gap:34px}
+  .how-grid{flex-direction:column;gap:22px}
+  .step-arrow{transform:rotate(-90deg)}
+  body.en .step-arrow{transform:rotate(90deg)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .buy-panel{position:static;order:2}
+  .gallery{order:1}
+  .sticky-buy{display:flex}
+  .pdp{padding-bottom:96px}
+}
+@media(max-width:640px){
+  .wrap{padding:0 20px}
+  .logo{font-size:1.3rem}
+  .nav-right{gap:12px}
+  .friend-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .opt-row{grid-template-columns:1fr}
+  .wa-float .txt{display:none}
+}
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="wrap nav">
+    <button class="burger" id="burger" aria-label="תפריט"><span></span><span></span><span></span></button>
+    <div class="logo" data-nav="home"><span class="mark">◍</span><span>LOOMI</span></div>
+    <div class="nav-right">
+      <div class="lang"><button data-lang="he" class="active">עב</button><span>|</span><button data-lang="en">EN</button></div>
+      <button class="cart-btn" id="cartOpen" aria-label="עגלה">
+        <svg class="cart-ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 8h13l-1.1 11.2a2 2 0 0 1-2 1.8H8.6a2 2 0 0 1-2-1.8L5.5 8Z"/><path d="M9 10.5V7a3 3 0 0 1 6 0v3.5"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mm-close" id="mmClose">✕</button>
+  <a data-nav="friends" data-t="nav_friends">החברים</a>
+  <a data-scroll="story" data-t="nav_story">הסיפור שלנו</a>
+  <a data-scroll="gift" data-t="nav_gifts">מתנות</a>
+  <a data-scroll="craft" data-t="nav_craft">עבודת יד</a>
+</div>
+
+<!-- ========= HOME ========= -->
+<main id="viewHome" class="view active">
+
+  <section class="hero wrap">
+    <div>
+      <div class="eyebrow" data-t="hero_eyebrow">עבודת יד · כותנה · מהדורה ראשונה</div>
+      <h1 data-t="hero_h">חבר קטן,<br>שנעשה בעבודת יד.</h1>
+      <p class="hero-sub" data-t="hero_sub">ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית. ואם תרצו, עם השם שלכם סרוג עליהן.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" data-nav="friends" data-t="hero_cta1">הכירו את החברים</button>
+        <button class="btn btn-ghost" data-scroll="craft" data-t="hero_cta2">איך זה נעשה</button>
+      </div>
+      <div class="trust-row">
+        <div data-t="trust1">🧶 100% עבודת יד</div>
+        <div data-t="trust2">💬 הזמנה פשוטה בוואטסאפ</div>
+        <div data-t="trust3">🎁 מגיע ארוז למתנה</div>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="{{IMG_FAMILY}}" alt="LOOMI">
+      <div class="hero-badge" data-t="tagline">בחרו חבר. תנו לו שם. והוא שלכם.</div>
+    </div>
+  </section>
+
+  <section class="friends" id="friendsSec">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow" data-t="meet_eyebrow">הקולקציה</div>
+        <h2 data-t="meet_h">לכל אחד יש אופי.</h2>
+        <p data-t="meet_sub">ארבע דמויות מקוריות, סרוגות ביד — כל אחת עם הסיפור שלה.</p>
+      </div>
+      <div class="friend-grid" id="friendGrid"></div>
+    </div>
+  </section>
+
+  <section class="pairs">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow" data-t="pairs_eyebrow">טוב יותר בשניים</div>
+        <h2 data-t="pairs_h">הם באים בזוגות.</h2>
+        <p data-t="pairs_sub">כל שניים נסרגו יחד ומשלימים אחד את השני — מושלם למתנה כפולה, לאחים, או פשוט כי הם לא אוהבים להיפרד.</p>
+      </div>
+      <div class="pairs-grid">
+        <div class="pair-card">
+          <img src="{{IMG_PAIR1}}" alt="">
+          <div class="pair-cap"><h3 data-t="pair1_h">מיצי וריקו</h3><p data-t="pair1_p">החתולה השקטה והרקון ההרפתקן</p></div>
+        </div>
+        <div class="pair-card">
+          <img src="{{IMG_PAIR2}}" alt="">
+          <div class="pair-cap"><h3 data-t="pair2_h">טופי ולולה</h3><p data-t="pair2_p">הכלבלב הסקרן והדובה העדינה</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow" data-t="how_eyebrow">פשוט מאוד</div>
+        <h2 data-t="how_h">שלושה צעדים.</h2>
+      </div>
+      <div class="how-grid" id="howGrid"></div>
+    </div>
+  </section>
+
+  <section class="craft" id="craft">
+    <div class="wrap craft-inner">
+      <div class="craft-photo"><img src="{{IMG_PAIR1}}" alt=""></div>
+      <div>
+        <div class="eyebrow" data-t="craft_eyebrow">המלאכה</div>
+        <h2 data-t="craft_h">נעשה בעבודת יד.</h2>
+        <p data-t="craft_p1">כל חבר נסרג ביד, תפר אחר תפר, מחוט כותנה רך ונעים למגע. אין מכונה בתהליך — רק ידיים, זמן וסבלנות.</p>
+        <p data-t="craft_p2">לכן אין שניים זהים לגמרי. קו קטן, גוון, הבעה — וזה בדיוק מה שהופך כל אחד לחד־פעמי.</p>
+        <ul class="craft-list" id="craftList"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="story" id="story">
+    <div class="wrap">
+      <div class="eyebrow" data-t="story_eyebrow">הסיפור שלנו</div>
+      <h2 data-t="story_h">הדברים הקטנים שקרובים אלינו.</h2>
+      <p data-t="story_p1">יש דברים קטנים שהופכים בית לבית — לא הגדולים, אלא אלה שאנחנו שומרים הכי קרוב.</p>
+      <p data-t="story_p2">חבר רך על המדף. פרצוף מוכר ליד המיטה. שם שנסרג, תפר אחר תפר, לתוך משהו שנעשה ביד.</p>
+      <p data-t="story_p3">אתם בוחרים את מי שמדבר אליכם. נותנים לו שם. ומהרגע הזה הוא כבר לא רק בובה — הוא שלכם.</p>
+    </div>
+  </section>
+
+  <section class="gift" id="gift">
+    <div class="wrap gift-inner">
+      <div class="gift-box">
+        <div class="gift-lid">
+          <div class="ribbon"></div><div class="ribbon h"></div>
+          <div class="card-note" id="giftNote">"לאמא, באהבה"</div>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow" data-t="gift_eyebrow">מוכן למתנה</div>
+        <h2 data-t="gift_h">מתנה שלא שוכחים.</h2>
+        <p data-t="gift_sub">מגיע בקופסה יפה, עם כרטיס אישי והשם שבחרתם. בחרו אירוע ותראו איך זה ייראה:</p>
+        <div class="occasions" id="occasions"></div>
+        <button class="btn btn-primary" data-nav="friends" data-t="gift_cta">בחרו חבר למתנה</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ========= PRODUCT ========= -->
+<main id="viewProduct" class="view">
+  <div class="wrap pdp">
+    <div class="pdp-grid">
+      <div class="buy-panel">
+        <div class="crumbs"><span data-nav="home" data-t="crumb_home">בית</span> / <span data-nav="friends" data-t="nav_friends">החברים</span> / <span id="pdpCrumb"></span></div>
+        <h1 id="pdpName"></h1>
+        <div class="role" id="pdpRole"></div>
+        <div class="price-lg" id="pdpPrice"></div>
+        <p class="desc-intro" id="pdpDesc"></p>
+        <ul class="pdp-bullets" id="pdpBullets"></ul>
+
+        <div class="pers-block">
+          <div class="lbl" data-t="pdp_pers_lbl">הפכו אותו לשלכם</div>
+          <div class="hint" data-t="pdp_pers_hint">אפשר להוסיף שם אישי, סרוג ביד על החבר.</div>
+          <div class="opt-row">
+            <div class="opt active" data-name="off">
+              <span class="t" data-t="opt_noname_t">בלי שם</span>
+              <span class="s" data-t="opt_noname_s">הדמות המקורית</span>
+            </div>
+            <div class="opt" data-name="on">
+              <span class="t" data-t="opt_name_t">הוסיפו שם</span>
+              <span class="s" id="optNamePrice"></span>
+            </div>
+          </div>
+          <div class="name-field" id="nameField">
+            <input id="nameInput" type="text" maxlength="12" placeholder="השם שייסרג…" data-t-ph="pdp_name_ph">
+            <div class="cc"><span id="charCount">0</span>/12</div>
+          </div>
+        </div>
+
+        <div class="addon">
+          <div class="addon-l">
+            <span style="font-size:1.4rem">🎁</span>
+            <div><div class="t" data-t="gift_add_t">הוסיפו אריזת מתנה</div><div class="s" id="giftAddPrice"></div></div>
+          </div>
+          <div class="switch" id="giftSwitch"></div>
+        </div>
+
+        <!-- Revealed only when gift packaging is on -->
+        <div class="card-field" id="cardField">
+          <div class="card-lbl" data-t="card_lbl">איזו ברכה לכתוב בכרטיס?</div>
+          <div class="card-opts" id="cardOpts"></div>
+          <div class="card-preview">
+            <span class="card-preview-lbl" data-t="card_prev">על הכרטיס יופיע:</span>
+            <span class="card-preview-txt" id="cardPreview"></span>
+          </div>
+        </div>
+
+        <div class="total-row"><span data-t="total_lbl">סה"כ</span><span class="amt" id="pdpTotal"></span></div>
+        <button class="btn btn-primary btn-block" id="addToCart" data-t="add_cart">הוספה לעגלה</button>
+
+        <div class="reassure">
+          <span data-t="re_hand">🧶 עבודת יד</span>
+          <span data-t="re_wa">💬 תמיכה בוואטסאפ</span>
+          <span data-t="re_gift">🎁 ארוז למתנה</span>
+        </div>
+        <div class="acc" id="pdpAcc"></div>
+      </div>
+
+      <div class="gallery">
+        <div class="gallery-main"><img id="galleryImg" src="" alt=""></div>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+    </div>
+  </div>
+  <div class="sticky-buy" id="stickyBuy">
+    <span style="font-weight:700;font-family:var(--serif);font-size:1.2rem" id="stickyPrice"></span>
+    <button class="btn btn-primary" id="stickyAdd" data-t="add_cart">הוספה לעגלה</button>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col foot-brand">
+        <div class="logo"><span class="mark">◍</span><span>LOOMI</span></div>
+        <p data-t="foot_tagline">חברים קטנים סרוגים ביד, שמקבלים את השם שלכם.</p>
+      </div>
+      <div class="foot-col">
+        <h4 data-t="foot_shop">חנות</h4>
+        <a data-nav="friends" data-t="nav_friends">החברים</a>
+        <a data-scroll="gift" data-t="nav_gifts">מתנות</a>
+      </div>
+      <div class="foot-col">
+        <h4 data-t="foot_help">עזרה</h4>
+        <a data-scroll="craft" data-t="nav_craft">עבודת יד</a>
+        <a id="footWa2" data-t="foot_contact">צרו קשר</a>
+      </div>
+      <div class="foot-col">
+        <h4 data-t="foot_follow">עקבו אחרינו</h4>
+        <a id="footWa" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span data-t="foot_rights">© 2026 LOOMI · נעשה באהבה בישראל</span>
+      <span data-t="foot_made">עבודת יד · מהדורה מוגבלת</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" id="waFloat" target="_blank" rel="noopener">
+  <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.8 14.2c-.2.6-1.2 1.2-1.7 1.2-.4 0-1 .1-3.2-.9-2.7-1.2-4.4-4-4.5-4.2-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.2.6 1 1.3 1.6.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.6-.7c.2-.2.3-.2.6-.1l1.9.9c.3.1.4.2.5.3.1.2.1.7-.1 1.3z"/></svg></span>
+  <span class="txt" data-t="wa_float">יש שאלה? דברו איתנו</span>
+</a>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head"><h3 data-t="cart_title">העגלה שלכם</h3><button id="cartClose" style="font-size:1.4rem">✕</button></div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot" id="cartFoot" style="display:none">
+    <div class="sum"><span data-t="total_lbl">סה"כ</span><span id="cartTotal"></span></div>
+    <div class="ship-note" data-t="cart_ship">המשלוח מתואם איתכם בוואטסאפ.</div>
+    <a class="btn btn-wa btn-block" id="checkoutWa" href="#" target="_blank" rel="noopener" data-t="cart_wa">השלמת הזמנה בוואטסאפ</a>
+    <p class="pay-note" data-t="cart_pay_note">סיום ההזמנה והתשלום נעשים בצ'אט, בנוחות ובבטחה.</p>
+  </div>
+</aside>
+
+<!-- Netlify Forms: this hidden form is what Netlify detects at deploy time so the
+     JS fetch() POST below is accepted. Orders are recorded server-side before
+     WhatsApp opens, so an order is never lost if the customer edits or never
+     sends the pre-filled message. -->
+<form name="order" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="bot-field">
+  <input type="text" name="ref">
+  <input type="text" name="items">
+  <input type="text" name="total">
+  <input type="text" name="lang">
+</form>
+
+<script>
+var CONFIG = { whatsapp:'972545224288' };
+var PRICES = { base:249, name:39, gift:29 };
+function money(n){ return '₪' + n; }
+
+var PHOTOS = {
+  cat:'{{IMG_CAT}}', raccoon:'{{IMG_RACOON}}', dog:'{{IMG_DOG}}', bear:'{{IMG_BEAR}}',
+  family:'{{IMG_FAMILY}}', pair1:'{{IMG_PAIR1}}', pair2:'{{IMG_PAIR2}}'
+};
+
+var CHARACTERS = [
+  { id:'mitzi', img:PHOTOS.cat, pair:'pair_a', gallery:['cat','pair1','family'],
+    he:{ name:'מיצי', role:'החתולה השקטה', blurb:'שמלה חומה, פסים על השרוולים וזנב ארוך.',
+      desc:'מיצי היא החתולה השקטה של החבורה — יושבת בפינה שלה, מסתכלת על העולם, ותמיד מוכנה לחיבוק.',
+      bullets:['חתולה סרוגה בעבודת יד מחוט כותנה','שמלת סרפן חומה עם שרוולים בדוגמת פסים','אוזניים מחודדות, שפם רקום וזנב ארוך','גובה: כ־35 ס״מ (כולל אוזניים)','כל בובה מעט שונה — כי היא נעשית בעבודת יד'],
+      dims:'גובה: כ־35 ס״מ כולל אוזניים · זנב: כ־18 ס״מ נוסף. סרוגה ומורכבת ביד, ולכן כל בובה מעט שונה מחברתה.' },
+    en:{ name:'Mitzi', role:'The quiet cat', blurb:'Brown pinafore, striped sleeves and a long tail.',
+      desc:'Mitzi is the quiet one — she sits in her corner, watches the world, and is always ready for a hug.',
+      bullets:['Hand-crocheted cat in soft cotton yarn','Brown pinafore dress with striped sleeves','Pointed ears, embroidered whiskers and a long tail','Height: ~35 cm (including ears)','Each one is slightly different — because it is handmade'],
+      dims:'Height: ~35 cm including ears · Tail: ~18 cm extra. Hand-crocheted and assembled, so each one differs slightly.' } },
+
+  { id:'rico', img:PHOTOS.raccoon, pair:'pair_a', gallery:['raccoon','pair1','family'],
+    he:{ name:'ריקו', role:'הרקון ההרפתקן', blurb:'חולצה חרדל, תיק על הגב וזנב מפוספס.',
+      desc:'ריקו תמיד מוכן לצאת לדרך — עם התיק על הגב והמסכה שמסגירה שהוא זומם משהו.',
+      bullets:['רקון סרוג בעבודת יד מחוט כותנה','חולצת חרדל ותיק גב סרוג בצבע חלוד','מסכה כהה אופיינית וזנב מפוספס','גובה: כ־38 ס״מ (הכי גדול בחבורה)','כל בובה מעט שונה — כי היא נעשית בעבודת יד'],
+      dims:'גובה: כ־38 ס״מ · זנב מפוספס: כ־20 ס״מ נוסף. סרוג ומורכב ביד, ולכן כל בובה מעט שונה מחברתה.' },
+    en:{ name:'Rico', role:'The adventurer raccoon', blurb:'Mustard tee, a backpack and a striped tail.',
+      desc:'Rico is always ready to head out — backpack on, mask on, clearly up to something.',
+      bullets:['Hand-crocheted raccoon in soft cotton yarn','Mustard shirt and a rust-colored crocheted backpack','Signature dark mask and a striped tail','Height: ~38 cm (the biggest of the group)','Each one is slightly different — because it is handmade'],
+      dims:'Height: ~38 cm · Striped tail: ~20 cm extra. Hand-crocheted and assembled, so each one differs slightly.' } },
+
+  { id:'toffee', img:PHOTOS.dog, pair:'pair_b', gallery:['dog','pair2','family'],
+    he:{ name:'טופי', role:'הכלבלב הסקרן', blurb:'אוברול תכלת עם כפתורי זהב ונעליים לבנות.',
+      desc:'טופי הוא הראשון שקופץ לכל הרפתקה — עם כתם חום סביב העין ואוזן אחת שתמיד מורמת.',
+      bullets:['כלבלב סרוג בעבודת יד מחוט כותנה','אוברול תכלת עם כתפיות וכפתורי זהב','כתם חום סביב העין ונעליים לבנות סרוגות','גובה: כ־33 ס״מ','כל בובה מעט שונה — כי היא נעשית בעבודת יד'],
+      dims:'גובה: כ־33 ס״מ מכף הרגל ועד קצה האוזניים. סרוג ומורכב ביד, ולכן כל בובה מעט שונה מחברתה.' },
+    en:{ name:'Toffee', role:'The curious pup', blurb:'Blue overalls with gold buttons and white shoes.',
+      desc:'Toffee is first to jump into any adventure — with a brown patch around one eye and an ear that never quite settles.',
+      bullets:['Hand-crocheted puppy in soft cotton yarn','Light-blue overalls with straps and gold buttons','Brown eye patch and crocheted white shoes','Height: ~33 cm','Each one is slightly different — because it is handmade'],
+      dims:'Height: ~33 cm from foot to ear tips. Hand-crocheted and assembled, so each one differs slightly.' } },
+
+  { id:'lola', img:PHOTOS.bear, pair:'pair_b', gallery:['bear','pair2','family'],
+    he:{ name:'לולה', role:'הדובה העדינה', blurb:'חצאית מלמלה בוורוד ותכלת וסרט בראש.',
+      desc:'לולה היא הרכה שבחבורה — עם חצאית מלמלה, סרט קטן בראש, ומבט שאומר שהכול יהיה בסדר.',
+      bullets:['דובה סרוגה בעבודת יד מחוט כותנה','חצאית מלמלה בשכבות ורוד ותכלת','סרט ורוד בראש וכפות בגוון שמנת','גובה: כ־34 ס״מ','כל בובה מעט שונה — כי היא נעשית בעבודת יד'],
+      dims:'גובה: כ־34 ס״מ מכף הרגל ועד קצה האוזניים. סרוגה ומורכבת ביד, ולכן כל בובה מעט שונה מחברתה.' },
+    en:{ name:'Lola', role:'The gentle bear', blurb:'Ruffled skirt in pink and blue with a head bow.',
+      desc:'Lola is the soft one — a ruffled skirt, a little bow, and a look that says everything will be fine.',
+      bullets:['Hand-crocheted bear in soft cotton yarn','Layered ruffle skirt in pink and light blue','Pink head bow and cream-colored paws','Height: ~34 cm','Each one is slightly different — because it is handmade'],
+      dims:'Height: ~34 cm from foot to ear tips. Hand-crocheted and assembled, so each one differs slightly.' } }
+];
+
+var I18N = {
+  he:{
+    nav_friends:'החברים', nav_story:'הסיפור שלנו', nav_gifts:'מתנות', nav_craft:'עבודת יד', nav_cart:'עגלה',
+    hero_eyebrow:'עבודת יד · כותנה · מהדורה ראשונה', hero_h:'חבר קטן,<br>שנעשה בעבודת יד.',
+    hero_sub:'ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית. ואם תרצו, עם השם שלכם סרוג עליהן.',
+    hero_cta1:'הכירו את החברים', hero_cta2:'איך זה נעשה',
+    tagline:'בחרו חבר. תנו לו שם. והוא שלכם.',
+    trust1:'🧶 100% עבודת יד', trust2:'💬 הזמנה פשוטה בוואטסאפ', trust3:'🎁 מגיע ארוז למתנה',
+    meet_eyebrow:'הקולקציה', meet_h:'לכל אחד יש אופי.', meet_sub:'ארבע דמויות מקוריות, סרוגות ביד — כל אחת עם הסיפור שלה.',
+    pairs_eyebrow:'טוב יותר בשניים', pairs_h:'הם באים בזוגות.',
+    pairs_sub:'כל שניים נסרגו יחד ומשלימים אחד את השני — מושלם למתנה כפולה, לאחים, או פשוט כי הם לא אוהבים להיפרד.',
+    pair1_h:'מיצי וריקו', pair1_p:'החתולה השקטה והרקון ההרפתקן',
+    pair2_h:'טופי ולולה', pair2_p:'הכלבלב הסקרן והדובה העדינה',
+    pair_a:'מיצי & ריקו', pair_b:'טופי & לולה',
+    how_eyebrow:'פשוט מאוד', how_h:'שלושה צעדים.', step_word:'שלב',
+    step1_t:'בחרו חבר', step1_d:'מצאו את הדמות שמדברת אליכם.',
+    step2_t:'תנו לו שם', step2_d:'אפשר להוסיף שם אישי, סרוג ביד.',
+    step3_t:'שלחו הודעה', step3_d:'סוגרים הכול בוואטסאפ, פשוט ומהיר.',
+    craft_eyebrow:'המלאכה', craft_h:'נעשה בעבודת יד.',
+    craft_p1:'כל חבר נסרג ביד, תפר אחר תפר, מחוט כותנה רך ונעים למגע. אין מכונה בתהליך — רק ידיים, זמן וסבלנות.',
+    craft_p2:'לכן אין שניים זהים לגמרי. קו קטן, גוון, הבעה — וזה בדיוק מה שהופך כל אחד לחד־פעמי.',
+    craft_l1:'חוט כותנה רך, נעים ובטוח למגע', craft_l2:'מילוי היפואלרגני, קליל ומתחבק',
+    craft_l3:'פרטים רקומים ביד — בלי חלקים קשיחים', craft_l4:'כל דמות לוקחת מספר ימי עבודה',
+    story_eyebrow:'הסיפור שלנו', story_h:'הדברים הקטנים שקרובים אלינו.',
+    story_p1:'יש דברים קטנים שהופכים בית לבית — לא הגדולים, אלא אלה שאנחנו שומרים הכי קרוב.',
+    story_p2:'חבר רך על המדף. פרצוף מוכר ליד המיטה. שם שנסרג, תפר אחר תפר, לתוך משהו שנעשה ביד.',
+    story_p3:'אתם בוחרים את מי שמדבר אליכם. נותנים לו שם. ומהרגע הזה הוא כבר לא רק בובה — הוא שלכם.',
+    gift_eyebrow:'מוכן למתנה', gift_h:'מתנה שלא שוכחים.',
+    gift_sub:'מגיע בקופסה יפה, עם כרטיס אישי והשם שבחרתם. בחרו אירוע ותראו איך זה ייראה:',
+    gift_cta:'בחרו חבר למתנה',
+    occ_birth:'יום הולדת', occ_baby:'לידה', occ_anniv:'יום נישואין', occ_partner:'לבן/בת הזוג', occ_just:'סתם כדי לשמח',
+    gift_note_birth:'"יום הולדת שמח!"', gift_note_baby:'"ברוכים הבאים לעולם"', gift_note_anniv:'"ליום הנישואין שלנו"',
+    gift_note_partner:'"בשבילך, באהבה"', gift_note_just:'"סתם, כי מגיע לך"', gift_note_default:'"לאמא, באהבה"',
+    foot_tagline:'חברים קטנים סרוגים ביד, שמקבלים את השם שלכם.',
+    foot_shop:'חנות', foot_help:'עזרה', foot_contact:'צרו קשר', foot_follow:'עקבו אחרינו',
+    foot_rights:'© 2026 LOOMI · נעשה באהבה בישראל', foot_made:'עבודת יד · מהדורה מוגבלת',
+    crumb_home:'בית',
+    quick_add:'הוספה מהירה', quick_added:'נוסף ✓',
+    pdp_pers_lbl:'הפכו אותו לשלכם', pdp_pers_hint:'אפשר להוסיף שם אישי, סרוג ביד על החבר.',
+    opt_noname_t:'בלי שם', opt_noname_s:'הדמות המקורית', opt_name_t:'הוסיפו שם', pdp_name_ph:'השם שייסרג…',
+    gift_add_t:'הוסיפו אריזת מתנה', total_lbl:'סה"כ', add_cart:'הוספה לעגלה',
+    re_hand:'🧶 עבודת יד', re_wa:'💬 תמיכה בוואטסאפ', re_gift:'🎁 ארוז למתנה',
+    acc_made_t:'עשוי בעבודת יד', acc_made_b:'כל חבר נסרג ומורכב ידנית בסטודיו שלנו. התהליך אורך מספר ימי עבודה לכל דמות.',
+    acc_mat_t:'חומרים', acc_mat_b:'חוט כותנה רך ונעים למגע, מילוי סינתטי היפואלרגני, ופרטי פנים רקומים — ללא חלקים קשיחים.',
+    acc_size_t:'מידות', acc_size_b:'',
+    acc_care_t:'טיפול', acc_care_b:'כביסה עדינה ביד במים פושרים, ייבוש בצל. לא במכונה ולא במייבש.',
+    acc_ship_t:'הזמנה ומשלוח', acc_ship_b:'ההזמנה נסגרת איתנו בוואטסאפ — נתאם יחד זמן אספקה ואופן משלוח. בהזמנה עם שם אישי יש זמן הכנה נוסף.',
+    acc_pers_t:'התאמה אישית', acc_pers_b:'השם נסרג בעבודת יד על החבר, באותיות עבריות או לועזיות, עד 12 תווים.',
+    cart_title:'העגלה שלכם', cart_empty:'העגלה עדיין ריקה', cart_empty_sub:'בחרו חבר קטן שיהיה שלכם.',
+    cart_ship:'המשלוח מתואם איתכם בוואטסאפ.', cart_wa:'השלמת הזמנה בוואטסאפ',
+    cart_pay_note:"סיום ההזמנה והתשלום נעשים בצ'אט, בנוחות ובבטחה.", cart_remove:'הסרה',
+    ci_name:'שם: ', ci_gift:'אריזת מתנה', ci_noname:'ללא שם', ci_card:'ברכה',
+    card_lbl:'איזו ברכה לכתוב בכרטיס?', card_prev:'על הכרטיס יופיע:',
+    wa_float:'יש שאלה? דברו איתנו',
+    wa_interest:'היי! אני מתעניין/ת ב', wa_order_intro:'היי! אשמח להזמין:', wa_order_total:'סה"כ', wa_order_ref:'מספר הזמנה:',
+    wa_question:'היי! יש לי שאלה על החברים 🧶'
+  },
+  en:{
+    nav_friends:'The Friends', nav_story:'Our Story', nav_gifts:'Gifts', nav_craft:'Handmade', nav_cart:'Cart',
+    hero_eyebrow:'Handmade · Cotton · First Edition', hero_h:'A little friend,<br>made by hand.',
+    hero_sub:'Four hand-crocheted characters — two little friendships waiting for a home. And if you like, with your name stitched on.',
+    hero_cta1:'Meet the friends', hero_cta2:'How it is made',
+    tagline:'Choose a friend. Give it a name. It is yours.',
+    trust1:'🧶 100% handmade', trust2:'💬 Easy WhatsApp ordering', trust3:'🎁 Arrives gift-ready',
+    meet_eyebrow:'The Collection', meet_h:'Each one has a character.', meet_sub:'Four original hand-crocheted characters — each with its own story.',
+    pairs_eyebrow:'Better in twos', pairs_h:'They come in pairs.',
+    pairs_sub:'Each two were crocheted together and complete each other — perfect as a double gift, for siblings, or simply because they do not like being apart.',
+    pair1_h:'Mitzi & Rico', pair1_p:'The quiet cat and the adventurer raccoon',
+    pair2_h:'Toffee & Lola', pair2_p:'The curious pup and the gentle bear',
+    pair_a:'Mitzi & Rico', pair_b:'Toffee & Lola',
+    how_eyebrow:'Beautifully simple', how_h:'Three steps.', step_word:'Step',
+    step1_t:'Choose a friend', step1_d:'Find the character that speaks to you.',
+    step2_t:'Give it a name', step2_d:'Add a personal name, crocheted by hand.',
+    step3_t:'Send a message', step3_d:'We finish everything on WhatsApp, simply.',
+    craft_eyebrow:'The Craft', craft_h:'Made by hand.',
+    craft_p1:'Every friend is crocheted by hand, stitch by stitch, from soft cotton yarn. No machine in the process — just hands, time and patience.',
+    craft_p2:'That is why no two are exactly alike. A small line, a shade, an expression — and that is exactly what makes each one one-of-a-kind.',
+    craft_l1:'Soft cotton yarn, gentle and safe to touch', craft_l2:'Hypoallergenic filling, light and huggable',
+    craft_l3:'Hand-embroidered details — no hard parts', craft_l4:'Each character takes several days of work',
+    story_eyebrow:'Our Story', story_h:'The small things we keep close.',
+    story_p1:'Some small things turn a house into a home — not the big ones, but the ones we keep closest.',
+    story_p2:'A soft friend on the shelf. A familiar face by the bed. A name crocheted, stitch by stitch, into something made by hand.',
+    story_p3:'You choose the one that speaks to you. You give it a name. And from that moment, it is not just a doll — it is yours.',
+    gift_eyebrow:'Gift-ready', gift_h:'A gift they will not forget.',
+    gift_sub:'Arrives in a beautiful box with a personal card and the name you chose. Pick an occasion to see how it looks:',
+    gift_cta:'Choose a friend to gift',
+    occ_birth:'Birthday', occ_baby:'New baby', occ_anniv:'Anniversary', occ_partner:'For your partner', occ_just:'Just because',
+    gift_note_birth:'"Happy Birthday!"', gift_note_baby:'"Welcome to the world"', gift_note_anniv:'"Happy Anniversary"',
+    gift_note_partner:'"For you, with love"', gift_note_just:'"Just because"', gift_note_default:'"For Mom, with love"',
+    foot_tagline:'Little hand-crocheted friends that take on your name.',
+    foot_shop:'Shop', foot_help:'Help', foot_contact:'Contact', foot_follow:'Follow',
+    foot_rights:'© 2026 LOOMI · Made with love in Israel', foot_made:'Handmade · Limited edition',
+    crumb_home:'Home',
+    quick_add:'Quick add', quick_added:'Added ✓',
+    pdp_pers_lbl:'Make it yours', pdp_pers_hint:'You can add a personal name, crocheted by hand.',
+    opt_noname_t:'No name', opt_noname_s:'The original character', opt_name_t:'Add a name', pdp_name_ph:'The name to stitch…',
+    gift_add_t:'Add gift packaging', total_lbl:'Total', add_cart:'Add to cart',
+    re_hand:'🧶 Handmade', re_wa:'💬 WhatsApp support', re_gift:'🎁 Gift-ready',
+    acc_made_t:'Made by hand', acc_made_b:'Every friend is crocheted and assembled by hand in our studio, over several working days per character.',
+    acc_mat_t:'Materials', acc_mat_b:'Soft cotton yarn, hypoallergenic synthetic filling, and hand-embroidered facial details — no hard parts.',
+    acc_size_t:'Dimensions', acc_size_b:'',
+    acc_care_t:'Care', acc_care_b:'Gentle hand wash in lukewarm water, dry in shade. No machine wash or dryer.',
+    acc_ship_t:'Ordering & shipping', acc_ship_b:'Orders are completed with us on WhatsApp — we will arrange delivery time and method together. Personalized names add preparation time.',
+    acc_pers_t:'Personalization', acc_pers_b:'The name is hand-crocheted onto your friend, in Hebrew or Latin letters, up to 12 characters.',
+    cart_title:'Your cart', cart_empty:'Your cart is empty', cart_empty_sub:'Choose a little friend to call your own.',
+    cart_ship:'Delivery is arranged with you on WhatsApp.', cart_wa:'Complete order on WhatsApp',
+    cart_pay_note:'Your order and payment are completed in the chat — easy and secure.', cart_remove:'Remove',
+    ci_name:'Name: ', ci_gift:'Gift box', ci_noname:'No name', ci_card:'Card',
+    card_lbl:'Which greeting should we write?', card_prev:'The card will read:',
+    wa_float:'Have a question? Chat with us',
+    wa_interest:'Hi! I am interested in ', wa_order_intro:'Hi! I would love to order:', wa_order_total:'Total', wa_order_ref:'Order no.:',
+    wa_question:'Hi! I have a question about the friends 🧶'
+  }
+};
+
+var LANG='he', cart=[], pdp={char:null,name:false,nameVal:'',gift:false,card:0}, activeOcc=null;
+
+/* Greeting cards included with gift packaging. The five occasions are the
+   strongest gifting moments for this product in Israel: a new baby and a
+   birthday are the two biggest, then get-well, first day at kindergarten,
+   and an evergreen "just because". Wording stays generic so one card fits
+   any recipient. */
+var GIFT_CARDS=[
+  { id:'birthday', ico:'🎂',
+    he:{occ:'יום הולדת',     msg:'יום הולדת שמח — שתהיה לך שנה רכה, שמחה ומלאה בחיבוקים.'},
+    en:{occ:'Birthday',      msg:'Happy birthday — may your year be soft, happy and full of hugs.'} },
+  { id:'newborn',  ico:'👶',
+    he:{occ:'לידה',          msg:'ברוך/ה הבא/ה לעולם — חבר קטן שילווה אותך מהיום הראשון.'},
+    en:{occ:'New baby',      msg:'Welcome to the world — a little friend for your very first days.'} },
+  { id:'getwell',  ico:'💛',
+    he:{occ:'החלמה',         msg:'רפואה שלמה — שיהיה מי שיחבק אותך עד שתרגיש/י טוב.'},
+    en:{occ:'Get well',      msg:'Get well soon — someone soft to hold until you feel better.'} },
+  { id:'firstday', ico:'🎒',
+    he:{occ:'יום ראשון בגן', msg:'ליום הראשון — חבר קטן בתיק, שתמיד יהיה לצידך.'},
+    en:{occ:'First day',     msg:'For your first day — a little friend in your bag, always beside you.'} },
+  { id:'treat',    ico:'✨',
+    he:{occ:'סתם, לפנק',     msg:'סתם ככה, בלי שום סיבה — רק כי מגיע לך משהו רך ומיוחד.'},
+    en:{occ:'A little treat',msg:'For no reason at all — just because you deserve something soft.'} }
+];
+function t(k){ var d=I18N[LANG]; return (d && d[k]!=null) ? d[k] : (I18N.he[k]!=null ? I18N.he[k] : k); }
+function ch(c){ return c[LANG]; }
+function esc(s){ return String(s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];}); }
+
+/* ---------- WhatsApp (device-aware) ---------- */
+function isMobile(){ return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(navigator.userAgent); }
+function waUrl(text){
+  var e=encodeURIComponent(text);
+  return isMobile() ? 'https://wa.me/'+CONFIG.whatsapp+'?text='+e
+                    : 'https://web.whatsapp.com/send?phone='+CONFIG.whatsapp+'&text='+e;
+}
+/* Short human-readable order reference, e.g. LM-4821. Regenerated whenever the
+   cart changes so each order carries its own code in both WhatsApp and Netlify. */
+var orderRef='';
+function newOrderRef(){ return 'LM-'+Math.floor(1000+Math.random()*9000); }
+
+/* Plain-text summary of the cart, shared by the WhatsApp message and the
+   order record so both always describe exactly the same thing. */
+function orderLines(){
+  var lines=[];
+  cart.forEach(function(it){
+    lines.push('• '+it.char[LANG].name + (it.name? ' — '+t('ci_name')+it.name : '') + (it.gift? ' — '+t('ci_gift') : '') + ' · ' + money(it.price));
+    if(it.gift && it.cardMsg) lines.push('   '+t('ci_card')+' ('+it.cardOcc+'): "'+it.cardMsg+'"');
+  });
+  return lines;
+}
+function orderTotal(){ return cart.reduce(function(s,x){return s+x.price;},0); }
+
+function waOrder(){
+  if(!orderRef) orderRef=newOrderRef();
+  var lines=[t('wa_order_intro'),''];
+  lines=lines.concat(orderLines());
+  lines.push('', t('wa_order_total')+': '+money(orderTotal()));
+  lines.push(t('wa_order_ref')+' '+orderRef);
+  return waUrl(lines.join('\n'));
+}
+
+/* Records the order with Netlify Forms before WhatsApp opens, so nothing is lost
+   if the customer edits the pre-filled message or never sends it. Fire-and-forget:
+   a failure here must never block the customer from reaching WhatsApp. */
+function recordOrder(){
+  if(!cart.length) return;
+  if(!orderRef) orderRef=newOrderRef();
+  try{
+    var body=new URLSearchParams({
+      'form-name':'order',
+      ref: orderRef,
+      items: orderLines().join(' | '),
+      total: money(orderTotal()),
+      lang: LANG
+    }).toString();
+    fetch('/', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:body })
+      .catch(function(){});
+  }catch(e){}
+}
+function updateWaLinks(){
+  var u=waUrl(t('wa_question'));
+  document.getElementById('waFloat').href=u;
+  document.getElementById('footWa').href=u;
+  document.getElementById('footWa2').href=u;
+}
+
+/* ---------- render ---------- */
+function applyLang(){
+  var d=I18N[LANG];
+  document.documentElement.lang=LANG;
+  document.documentElement.dir = LANG==='he' ? 'rtl' : 'ltr';
+  document.body.classList.toggle('en', LANG==='en');
+  document.querySelectorAll('[data-t]').forEach(function(el){ var v=d[el.dataset.t]; if(v!=null) el.innerHTML=v; });
+  document.querySelectorAll('[data-t-ph]').forEach(function(el){ var v=d[el.dataset.tPh]; if(v!=null) el.placeholder=v; });
+  document.querySelectorAll('[data-lang]').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===LANG); });
+  renderFriends(); renderHow(); renderCraftList(); renderOccasions(); updateWaLinks();
+  if(pdp.char) renderProduct(pdp.char.id, true);
+  if(cart.length) renderCart();
+}
+function renderFriends(){
+  document.getElementById('friendGrid').innerHTML = CHARACTERS.map(function(c){
+    return '<div class="friend-card" data-go="'+c.id+'">'
+      + '<div class="friend-art">'
+        + '<img src="'+c.img+'" alt="'+esc(ch(c).name)+'" loading="lazy">'
+        + '<span class="pair-tag">'+t(c.pair)+'</span>'
+        + '<button class="quick-add" type="button" data-quick="'+c.id+'">'+t('quick_add')+'</button>'
+      + '</div>'
+      + '<div class="friend-info">'
+        + '<h3>'+esc(ch(c).name)+'</h3>'
+        + '<div class="role">'+esc(ch(c).role)+'</div>'
+        + '<div class="blurb">'+esc(ch(c).blurb)+'</div>'
+        + '<div class="price">'+money(PRICES.base)+' <small>'+(LANG==='he'?'כולל מע"מ':'incl. VAT')+'</small></div>'
+        + '<span class="link-arrow">'+(LANG==='he'?'להכיר את '+ch(c).name+' ←':'Meet '+ch(c).name+' →')+'</span>'
+      + '</div></div>';
+  }).join('');
+}
+function renderHow(){
+  var steps=[[1,t('step1_t'),t('step1_d')],[2,t('step2_t'),t('step2_d')],[3,t('step3_t'),t('step3_d')]];
+  var arrow='<span class="step-arrow">'+(LANG==='he'?'←':'→')+'</span>';
+  document.getElementById('howGrid').innerHTML = steps.map(function(s){
+    return '<div class="step-circle"><span class="step-label">'+t('step_word')+' '+s[0]+'</span><h3>'+s[1]+'</h3><p>'+s[2]+'</p></div>';
+  }).join(arrow);
+}
+function renderCraftList(){
+  document.getElementById('craftList').innerHTML =
+    ['craft_l1','craft_l2','craft_l3','craft_l4'].map(function(k){ return '<li>'+t(k)+'</li>'; }).join('');
+}
+function renderOccasions(){
+  var keys=['birth','baby','anniv','partner','just'];
+  document.getElementById('occasions').innerHTML = keys.map(function(k){
+    return '<button type="button" class="chip'+(activeOcc===k?' active':'')+'" data-occ="'+k+'">'+t('occ_'+k)+'</button>';
+  }).join('');
+  document.getElementById('giftNote').textContent = activeOcc ? t('gift_note_'+activeOcc) : t('gift_note_default');
+}
+
+/* ---------- product ---------- */
+function priceNow(){ return PRICES.base + (pdp.name?PRICES.name:0) + (pdp.gift?PRICES.gift:0); }
+
+/* Greeting-card picker: only shown while gift packaging is on. */
+function renderGiftCards(){
+  var wrap=document.getElementById('cardField');
+  var opts=document.getElementById('cardOpts');
+  if(!wrap||!opts) return;
+  wrap.classList.toggle('show', pdp.gift);
+  opts.innerHTML = GIFT_CARDS.map(function(g,i){
+    return '<button type="button" class="card-opt'+(i===pdp.card?' active':'')+'" data-card="'+i+'">'
+      + '<span class="ico">'+g.ico+'</span>'
+      + '<span class="body"><span class="occ">'+esc(g[LANG].occ)+'</span>'
+      + '<span class="msg">'+esc(g[LANG].msg)+'</span></span></button>';
+  }).join('');
+  var prev=document.getElementById('cardPreview');
+  if(prev) prev.textContent = giftCardText();
+}
+/* The card text, with the doll's personalised name appended when there is one. */
+function giftCardText(){
+  var g=GIFT_CARDS[pdp.card]; if(!g) return '';
+  var msg=g[LANG].msg;
+  var nm=(pdp.name&&pdp.nameVal.trim())?pdp.nameVal.trim():'';
+  return nm ? msg+' — '+nm : msg;
+}
+function renderProduct(id, keep){
+  var c = CHARACTERS.filter(function(x){return x.id===id;})[0];
+  if(!c) return;
+  if(!keep){ pdp={char:c,name:false,nameVal:'',gift:false,card:0}; } else { pdp.char=c; }
+  document.getElementById('pdpName').textContent = ch(c).name;
+  document.getElementById('pdpCrumb').textContent = ch(c).name;
+  document.getElementById('pdpRole').textContent = ch(c).role;
+  document.getElementById('pdpPrice').textContent = money(PRICES.base);
+  document.getElementById('pdpDesc').textContent = ch(c).desc;
+  document.getElementById('pdpBullets').innerHTML = ch(c).bullets.map(function(b){ return '<li>'+esc(b)+'</li>'; }).join('');
+  document.getElementById('optNamePrice').textContent = '+'+money(PRICES.name);
+  document.getElementById('giftAddPrice').textContent = (LANG==='he'?'קופסה, סרט וכרטיס אישי · +':'Box, ribbon & card · +')+money(PRICES.gift);
+  document.querySelectorAll('.opt').forEach(function(o){ o.classList.toggle('active', o.dataset.name===(pdp.name?'on':'off')); });
+  document.getElementById('nameField').classList.toggle('show', pdp.name);
+  document.getElementById('nameInput').value = pdp.nameVal;
+  document.getElementById('charCount').textContent = pdp.nameVal.length;
+  document.getElementById('giftSwitch').classList.toggle('on', pdp.gift);
+  renderGiftCards();
+
+  var acc=[['acc_made_t','acc_made_b'],['acc_mat_t','acc_mat_b'],['acc_size_t','acc_size_b'],['acc_care_t','acc_care_b'],['acc_ship_t','acc_ship_b'],['acc_pers_t','acc_pers_b']];
+  document.getElementById('pdpAcc').innerHTML = acc.map(function(a){
+    var body = (a[1]==='acc_size_b') ? ch(c).dims : t(a[1]);
+    return '<div class="acc-item"><button class="acc-head" type="button">'+t(a[0])+'<span class="pm">+</span></button><div class="acc-body"><p>'+body+'</p></div></div>';
+  }).join('');
+  document.querySelectorAll('#pdpAcc .acc-head').forEach(function(h){
+    h.onclick=function(){
+      var item=h.parentElement, body=h.nextElementSibling, open=item.classList.contains('open');
+      item.classList.toggle('open');
+      body.style.maxHeight = open ? null : body.scrollHeight+'px';
+    };
+  });
+
+  var shots = c.gallery.map(function(k){ return PHOTOS[k]; });
+  document.getElementById('galleryImg').src = shots[0];
+  document.getElementById('thumbs').innerHTML = shots.map(function(s,i){
+    return '<div class="thumb'+(i===0?' active':'')+'" data-src="'+s+'"><img src="'+s+'" alt="" loading="lazy"></div>';
+  }).join('');
+  document.querySelectorAll('#thumbs .thumb').forEach(function(th){
+    th.onclick=function(){
+      document.querySelectorAll('#thumbs .thumb').forEach(function(x){x.classList.remove('active');});
+      th.classList.add('active');
+      document.getElementById('galleryImg').src = th.dataset.src;
+    };
+  });
+  refreshTotal();
+}
+function refreshTotal(){
+  document.getElementById('pdpTotal').textContent = money(priceNow());
+  document.getElementById('stickyPrice').textContent = money(priceNow());
+}
+
+/* ---------- router ---------- */
+function go(view){
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+  document.getElementById(view==='product'?'viewProduct':'viewHome').classList.add('active');
+  window.scrollTo(0,0);
+}
+function openProduct(id){ renderProduct(id); go('product'); }
+
+/* Switches to the home view only if we aren't already there, so an in-page
+   scroll doesn't first snap to the top. */
+function goHomeKeepingScroll(){
+  if(!document.getElementById('viewHome').classList.contains('active')) go('home');
+}
+
+/* Scrolls a section into view, offsetting the fixed header so its heading
+   is never hidden underneath it. Waits a frame so layout is settled. */
+function scrollToSection(id){
+  requestAnimationFrame(function(){
+    setTimeout(function(){
+      var el=document.getElementById(id); if(!el) return;
+      var header=document.getElementById('header');
+      var offset=(header?header.offsetHeight:74)+18;
+      var y=el.getBoundingClientRect().top+window.pageYOffset-offset;
+      window.scrollTo({top:y>0?y:0,behavior:'smooth'});
+    },90);
+  });
+}
+
+/* ---------- cart ---------- */
+function addToCart(){
+  var c=pdp.char; if(!c) return;
+  cart.push({ id:c.id, char:c, name:pdp.name?pdp.nameVal:'', gift:pdp.gift,
+              cardOcc: pdp.gift ? GIFT_CARDS[pdp.card][LANG].occ : '',
+              cardMsg: pdp.gift ? GIFT_CARDS[pdp.card][LANG].msg : '',
+              price:priceNow() });
+  updateCount(); renderCart(); openCart();
+}
+function quickAdd(id, btn){
+  var c=CHARACTERS.filter(function(x){return x.id===id;})[0]; if(!c) return;
+  cart.push({ id:c.id, char:c, name:'', gift:false, price:PRICES.base });
+  updateCount(); renderCart();
+  if(btn){ var o=btn.textContent; btn.textContent=t('quick_added'); btn.classList.add('added');
+    setTimeout(function(){ btn.textContent=o; btn.classList.remove('added'); },1400); }
+}
+function updateCount(){
+  var el=document.getElementById('cartCount');
+  el.textContent=cart.length; el.classList.toggle('show', cart.length>0);
+}
+function renderCart(){
+  var body=document.getElementById('cartBody'), foot=document.getElementById('cartFoot');
+  if(!cart.length){
+    body.innerHTML='<div class="cart-empty"><p style="font-family:var(--serif);font-size:1.35rem;margin-bottom:8px">'+t('cart_empty')+'</p><p>'+t('cart_empty_sub')+'</p></div>';
+    foot.style.display='none'; return;
+  }
+  body.innerHTML = cart.map(function(it,i){
+    return '<div class="cart-item">'
+      + '<div class="ci-art"><img src="'+it.char.img+'" alt=""></div>'
+      + '<div class="ci-info"><h4>'+esc(it.char[LANG].name)+'</h4>'
+      + '<div class="ci-meta">'+(it.name? t('ci_name')+esc(it.name) : t('ci_noname'))+(it.gift? ' · '+t('ci_gift') : '')+'</div>'
+      + (it.gift&&it.cardMsg ? '<div class="ci-card">'+esc(it.cardOcc)+': "'+esc(it.cardMsg)+'"</div>' : '')
+      + '<div class="ci-price">'+money(it.price)+'</div>'
+      + '<span class="ci-remove" data-rm="'+i+'">'+t('cart_remove')+'</span>'
+      + '</div></div>';
+  }).join('');
+  foot.style.display='block';
+  document.getElementById('cartTotal').textContent = money(orderTotal());
+  orderRef = newOrderRef();               // fresh code for the current cart contents
+  document.getElementById('checkoutWa').href = waOrder();
+  body.querySelectorAll('[data-rm]').forEach(function(b){
+    b.onclick=function(){ cart.splice(Number(b.dataset.rm),1); updateCount(); renderCart(); };
+  });
+}
+/* Record the order the moment the customer commits to WhatsApp. The link is a
+   plain <a>, so the navigation continues normally alongside this. */
+document.getElementById('checkoutWa').addEventListener('click', function(){ recordOrder(); });
+
+function openCart(){ document.getElementById('drawer').classList.add('show'); document.getElementById('overlay').classList.add('show'); }
+function closeCart(){ document.getElementById('drawer').classList.remove('show'); document.getElementById('overlay').classList.remove('show'); }
+
+/* ---------- events ---------- */
+document.addEventListener('click', function(e){
+  var q=e.target.closest('[data-quick]');
+  if(q){ e.stopPropagation(); quickAdd(q.dataset.quick, q); return; }
+
+  var nav=e.target.closest('[data-nav]');
+  if(nav){
+    var d=nav.dataset.nav;
+    document.getElementById('mobileMenu').classList.remove('show');
+    if(d==='home') go('home');
+    else if(d==='friends'){ goHomeKeepingScroll(); scrollToSection('friendsSec'); }
+    return;
+  }
+  var sc=e.target.closest('[data-scroll]');
+  if(sc){
+    document.getElementById('mobileMenu').classList.remove('show');
+    goHomeKeepingScroll();
+    scrollToSection(sc.dataset.scroll);
+    return;
+  }
+  var card=e.target.closest('[data-go]');
+  if(card){ openProduct(card.dataset.go); return; }
+
+  var gcard=e.target.closest('[data-card]');
+  if(gcard){ pdp.card=Number(gcard.dataset.card); renderGiftCards(); return; }
+
+  var chip=e.target.closest('.chip');
+  if(chip && chip.dataset.occ){
+    activeOcc = (activeOcc===chip.dataset.occ) ? null : chip.dataset.occ;
+    renderOccasions();
+    return;
+  }
+  var opt=e.target.closest('.opt');
+  if(opt){
+    pdp.name = opt.dataset.name==='on';
+    document.querySelectorAll('.opt').forEach(function(o){ o.classList.toggle('active', o===opt); });
+    document.getElementById('nameField').classList.toggle('show', pdp.name);
+    refreshTotal(); renderGiftCards();
+    if(pdp.name) setTimeout(function(){ document.getElementById('nameInput').focus(); },200);
+  }
+});
+document.querySelectorAll('[data-lang]').forEach(function(b){
+  b.onclick=function(){ LANG=b.dataset.lang; applyLang(); };
+});
+document.getElementById('nameInput').addEventListener('input', function(e){
+  pdp.nameVal=e.target.value;
+  document.getElementById('charCount').textContent=e.target.value.length;
+  var prev=document.getElementById('cardPreview');
+  if(prev) prev.textContent=giftCardText();   // keep the card preview in sync with the name
+});
+document.getElementById('giftSwitch').onclick=function(){
+  pdp.gift=!pdp.gift; this.classList.toggle('on',pdp.gift); refreshTotal(); renderGiftCards();
+};
+document.getElementById('addToCart').onclick=addToCart;
+document.getElementById('stickyAdd').onclick=addToCart;
+document.getElementById('cartOpen').onclick=function(){ renderCart(); openCart(); };
+document.getElementById('cartClose').onclick=closeCart;
+document.getElementById('overlay').onclick=closeCart;
+document.getElementById('burger').onclick=function(){ document.getElementById('mobileMenu').classList.add('show'); };
+document.getElementById('mmClose').onclick=function(){ document.getElementById('mobileMenu').classList.remove('show'); };
+window.addEventListener('scroll', function(){
+  document.getElementById('header').classList.toggle('scrolled', window.scrollY>40);
+});
+
+applyLang();
+renderCart();
+</script>
+</body>
+</html>

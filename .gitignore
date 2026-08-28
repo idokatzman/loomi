@@ -1,0 +1,7 @@
+# Netlify CLI state
+.netlify/
+
+# Build output — regenerated from template.html by build-site.ps1
+index.html
+loomi-web.html
+deploy/
