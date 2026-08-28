@@ -6,7 +6,8 @@
 <title>LOOMI · חברים קטנים שנעשים בעבודת יד</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Assistant:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="%232B2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12.6 17.4c-1.6-3.4-1.3-7.2 1-8.4 2.3-1.2 5.3.7 7 4"/><path d="M35.4 17.4c1.6-3.4 1.3-7.2-1-8.4-2.3-1.2-5.3.7-7 4"/><path d="M24 12.5c7.2 0 12.5 5.6 12.5 13S31.2 39 24 39s-12.5-6.1-12.5-13.5 5.3-13 12.5-13Z"/><circle cx="18.4" cy="24" r="2.4" fill="%232B2622" stroke="none"/><circle cx="29.6" cy="24" r="2.4" fill="%232B2622" stroke="none"/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Heebo:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
   --ivory:#F7F3EC; --cream:#EFE9DE; --oat:#E6DCCB; --beige:#D9CBB6;
@@ -14,16 +15,18 @@
   --muted:#8A7F70; --clay:#B67A5E; --line:#E2D8C7; --white:#FFFFFF;
   --shadow-s:0 4px 18px rgba(60,45,30,.06);
   --shadow-m:0 18px 50px rgba(60,45,30,.12);
-  --serif:'Frank Ruhl Libre','David Libre',Georgia,serif;
+  /* Amatic SC is a handwritten face — it runs small and light, so anywhere it is
+     used the size is stepped up and the weight set to 700 to hold its own. */
+  --serif:'Amatic SC','Heebo',Georgia,serif;
   --serif-en:'Cormorant Garamond',Georgia,serif;
-  --sans:'Assistant','Heebo','Segoe UI',system-ui,sans-serif;
+  --sans:'Heebo','Segoe UI',system-ui,sans-serif;
   --maxw:1240px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--ivory);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body.en{direction:ltr}
-h1,h2,h3,.serif{font-family:var(--serif);font-weight:500;letter-spacing:-.01em;line-height:1.15}
+h1,h2,h3,.serif{font-family:var(--serif);font-weight:700;letter-spacing:0;line-height:1.1}
 body.en h1,body.en h2,body.en h3{font-family:var(--serif-en);letter-spacing:0}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
@@ -45,8 +48,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 header{position:fixed;top:0;inset-inline:0;z-index:100;transition:background .3s,box-shadow .3s}
 header.scrolled{background:rgba(247,243,236,.92);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
 .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:74px}
-.logo{font-family:var(--serif);font-size:1.5rem;font-weight:700;letter-spacing:.06em;display:flex;align-items:center;gap:10px;cursor:pointer;justify-self:center}
-.logo .mark{width:30px;height:30px;border-radius:50%;background:var(--charcoal);color:var(--ivory);display:grid;place-items:center;font-size:.9rem;font-family:var(--sans)}
+.logo{font-family:var(--serif);font-size:1.95rem;font-weight:700;letter-spacing:.06em;display:flex;align-items:center;gap:10px;cursor:pointer;justify-self:center}
+.logo .mark{width:34px;height:34px;display:grid;place-items:center;color:var(--charcoal);flex:0 0 auto}
+.logo .mark svg{width:100%;height:100%;display:block}
 .nav-right{display:flex;align-items:center;gap:20px;justify-self:right}
 .lang{display:flex;align-items:center;gap:7px;font-size:.82rem;font-weight:600;color:var(--muted)}
 .lang button.active{color:var(--charcoal);text-decoration:underline;text-underline-offset:4px}
@@ -73,18 +77,18 @@ section[id]{scroll-margin-top:96px}
 
 /* hero: copy first, photo underneath (single column, centered) */
 .hero{display:block;text-align:center;padding:104px 0 70px}
-.hero h1{font-size:clamp(2.6rem,5.2vw,4.2rem);margin:22px 0 22px}
+.hero h1{font-size:clamp(3.4rem,6.6vw,5.4rem);margin:18px 0 20px}
 .hero-sub{font-size:1.18rem;color:var(--brown-deep);max-width:44ch;margin:0 auto 34px}
 .hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
 .hero-photo{position:relative;border-radius:26px;overflow:hidden;box-shadow:var(--shadow-m);background:var(--cream);margin-top:52px}
 .hero-photo img{width:100%;height:auto;max-height:74vh;object-fit:cover;aspect-ratio:16/10;display:block}
-.hero-badge{position:absolute;bottom:22px;inset-inline-start:22px;background:rgba(247,243,236,.94);backdrop-filter:blur(6px);padding:10px 20px;border-radius:100px;font-family:var(--serif);font-size:1rem;color:var(--brown-deep);box-shadow:var(--shadow-s)}
+.hero-badge{position:absolute;bottom:22px;inset-inline-start:22px;background:rgba(247,243,236,.94);backdrop-filter:blur(6px);padding:10px 20px;border-radius:100px;font-family:var(--serif);font-weight:700;font-size:1.32rem;color:var(--brown-deep);box-shadow:var(--shadow-s)}
 .trust-row{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;margin-top:30px;padding-top:24px;border-top:1px solid var(--line);max-width:640px;margin-inline:auto}
 .trust-row div{font-size:.88rem;color:var(--muted);display:flex;align-items:center;gap:7px}
 
 section{padding:clamp(64px,8vw,110px) 0}
 .sec-head{max-width:640px;margin:0 auto 54px;text-align:center}
-.sec-head h2{font-size:clamp(2rem,3.6vw,3rem);margin:14px 0 16px}
+.sec-head h2{font-size:clamp(2.6rem,4.6vw,3.9rem);margin:10px 0 14px}
 .sec-head p{font-size:1.08rem;color:var(--muted)}
 
 /* friends */
@@ -141,7 +145,7 @@ section{padding:clamp(64px,8vw,110px) 0}
 .story{text-align:center}
 .story .wrap{max-width:720px}
 .story h2{font-size:clamp(2rem,3.6vw,3rem);margin:14px 0 30px}
-.story p{font-family:var(--serif);font-size:1.32rem;line-height:1.9;margin-bottom:20px}
+.story p{font-family:var(--serif);font-weight:700;font-size:1.72rem;line-height:1.55;margin-bottom:18px}
 body.en .story p{font-family:var(--serif-en)}
 
 /* gift */
@@ -151,7 +155,7 @@ body.en .story p{font-family:var(--serif-en)}
 .gift-lid{width:66%;aspect-ratio:1/.8;background:var(--white);border-radius:14px;box-shadow:var(--shadow-s);display:grid;place-items:center;position:relative}
 .ribbon{position:absolute;inset-inline:0;top:0;height:100%;width:16px;margin:auto;background:var(--clay);opacity:.85}
 .ribbon.h{width:100%;height:16px}
-.card-note{font-family:var(--serif);font-size:1.05rem;color:var(--brown-deep);z-index:2;background:var(--white);padding:3px 8px}
+.card-note{font-family:var(--serif);font-weight:700;font-size:1.34rem;color:var(--brown-deep);z-index:2;background:var(--white);padding:3px 8px}
 .gift h2{font-size:clamp(2rem,3.6vw,2.8rem);margin:14px 0 18px}
 .gift p{color:var(--muted);font-size:1.06rem;margin-bottom:22px}
 .occasions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
@@ -181,7 +185,7 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
 .crumbs{font-size:.85rem;color:var(--muted);margin-bottom:16px}
 .crumbs span[data-nav]{cursor:pointer}
 .crumbs span[data-nav]:hover{color:var(--clay)}
-.pdp h1{font-size:clamp(2.3rem,4vw,3.2rem);margin-bottom:4px}
+.pdp h1{font-size:clamp(3rem,5.2vw,4.2rem);margin-bottom:2px}
 .pdp .role{color:var(--clay);font-weight:600;font-size:1.04rem;margin-bottom:16px}
 .pdp .price-lg{font-size:1.45rem;font-weight:700;margin-bottom:20px}
 .pdp .desc-intro{color:var(--brown-deep);font-size:1.06rem;margin-bottom:16px;max-width:46ch}
@@ -223,7 +227,7 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
 .card-opt .msg{font-size:.92rem;font-weight:500}
 .card-preview{margin-top:12px;padding:14px 16px;border-radius:12px;background:var(--cream);border:1px dashed var(--beige);display:flex;flex-direction:column;gap:4px}
 .card-preview-lbl{font-size:.74rem;color:var(--muted);letter-spacing:.06em}
-.card-preview-txt{font-family:var(--serif);font-size:1.06rem;color:var(--brown-deep)}
+.card-preview-txt{font-family:var(--serif);font-weight:700;font-size:1.32rem;color:var(--brown-deep)}
 .addon-l{display:flex;gap:12px;align-items:flex-start}
 .addon-l .t{font-weight:600}
 .addon-l .s{font-size:.83rem;color:var(--muted)}
@@ -232,7 +236,7 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
 .switch.on{background:#1FA855}
 .switch.on::after{inset-inline-start:23px}
 .total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;font-size:1.06rem}
-.total-row .amt{font-size:1.55rem;font-weight:700;font-family:var(--serif)}
+.total-row .amt{font-size:1.55rem;font-weight:700;font-family:var(--sans)}
 .reassure{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px;color:var(--muted);font-size:.84rem}
 .acc{margin-top:32px;border-top:1px solid var(--line)}
 .acc-item{border-bottom:1px solid var(--line)}
@@ -258,7 +262,7 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
 .ci-info{flex:1}
 .ci-info h4{font-size:1.06rem}
 .ci-meta{font-size:.8rem;color:var(--muted);margin:2px 0 6px}
-.ci-card{font-size:.78rem;color:var(--brown-deep);font-family:var(--serif);margin:0 0 6px;line-height:1.4}
+.ci-card{font-size:.92rem;font-weight:700;color:var(--brown-deep);font-family:var(--serif);margin:0 0 6px;line-height:1.4}
 .ci-price{font-weight:600}
 .ci-remove{color:var(--muted);font-size:.78rem;text-decoration:underline;cursor:pointer}
 .drawer-foot{padding:24px;border-top:1px solid var(--line)}
@@ -270,7 +274,7 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
 
 .mobile-menu{position:fixed;inset:0;background:var(--ivory);z-index:150;transform:translateY(-100%);transition:.35s;padding:90px 30px;display:flex;flex-direction:column;gap:8px}
 .mobile-menu.show{transform:translateY(0)}
-.mobile-menu a{font-family:var(--serif);font-size:1.8rem;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.mobile-menu a{font-family:var(--serif);font-weight:700;font-size:2.4rem;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}
 .mm-close{position:absolute;top:26px;inset-inline-end:26px;font-size:1.8rem}
 
 @media(max-width:1024px){
@@ -306,7 +310,7 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
 <header id="header">
   <div class="wrap nav">
     <button class="burger" id="burger" aria-label="תפריט"><span></span><span></span><span></span></button>
-    <div class="logo" data-nav="home"><span class="mark">◍</span><span>LOOMI</span></div>
+    <div class="logo" data-nav="home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12.6 17.4c-1.6-3.4-1.3-7.2 1-8.4 2.3-1.2 5.3.7 7 4"/><path d="M35.4 17.4c1.6-3.4 1.3-7.2-1-8.4-2.3-1.2-5.3.7-7 4"/><path d="M24 12.5c7.2 0 12.5 5.6 12.5 13S31.2 39 24 39s-12.5-6.1-12.5-13.5 5.3-13 12.5-13Z"/><ellipse cx="24" cy="30.5" rx="7.4" ry="5.8"/><circle cx="18.4" cy="23.6" r="1.8" fill="currentColor" stroke="none"/><circle cx="29.6" cy="23.6" r="1.8" fill="currentColor" stroke="none"/></svg></span><span>LOOMI</span></div>
     <div class="nav-right">
       <div class="lang"><button data-lang="he" class="active">עב</button><span>|</span><button data-lang="en">EN</button></div>
       <button class="cart-btn" id="cartOpen" aria-label="עגלה">
@@ -499,7 +503,7 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
     </div>
   </div>
   <div class="sticky-buy" id="stickyBuy">
-    <span style="font-weight:700;font-family:var(--serif);font-size:1.2rem" id="stickyPrice"></span>
+    <span style="font-weight:700;font-family:var(--sans);font-size:1.2rem" id="stickyPrice"></span>
     <button class="btn btn-primary" id="stickyAdd" data-t="add_cart">הוספה לעגלה</button>
   </div>
 </main>
@@ -508,7 +512,7 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-col foot-brand">
-        <div class="logo"><span class="mark">◍</span><span>LOOMI</span></div>
+        <div class="logo"><span class="mark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12.6 17.4c-1.6-3.4-1.3-7.2 1-8.4 2.3-1.2 5.3.7 7 4"/><path d="M35.4 17.4c1.6-3.4 1.3-7.2-1-8.4-2.3-1.2-5.3.7-7 4"/><path d="M24 12.5c7.2 0 12.5 5.6 12.5 13S31.2 39 24 39s-12.5-6.1-12.5-13.5 5.3-13 12.5-13Z"/><ellipse cx="24" cy="30.5" rx="7.4" ry="5.8"/><circle cx="18.4" cy="23.6" r="1.8" fill="currentColor" stroke="none"/><circle cx="29.6" cy="23.6" r="1.8" fill="currentColor" stroke="none"/></svg></span><span>LOOMI</span></div>
         <p data-t="foot_tagline">חברים קטנים סרוגים ביד, שמקבלים את השם שלכם.</p>
       </div>
       <div class="foot-col">
@@ -991,7 +995,7 @@ function updateCount(){
 function renderCart(){
   var body=document.getElementById('cartBody'), foot=document.getElementById('cartFoot');
   if(!cart.length){
-    body.innerHTML='<div class="cart-empty"><p style="font-family:var(--serif);font-size:1.35rem;margin-bottom:8px">'+t('cart_empty')+'</p><p>'+t('cart_empty_sub')+'</p></div>';
+    body.innerHTML='<div class="cart-empty"><p style="font-family:var(--serif);font-weight:700;font-size:1.75rem;margin-bottom:8px">'+t('cart_empty')+'</p><p>'+t('cart_empty_sub')+'</p></div>';
     foot.style.display='none'; return;
   }
   body.innerHTML = cart.map(function(it,i){
