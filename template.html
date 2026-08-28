@@ -87,8 +87,8 @@ section[id]{scroll-margin-top:96px}
 .trust-row div{font-size:.88rem;color:var(--muted);display:flex;align-items:center;gap:7px}
 
 section{padding:clamp(64px,8vw,110px) 0}
-.sec-head{max-width:640px;margin:0 auto 54px;text-align:center}
-.sec-head h2{font-size:clamp(2.6rem,4.6vw,3.9rem);margin:10px 0 14px}
+.sec-head{max-width:640px;margin:0 auto 34px;text-align:center}
+.sec-head h2{font-size:clamp(2.6rem,4.6vw,3.9rem);margin:6px 0 10px}
 .sec-head p{font-size:1.08rem;color:var(--muted)}
 
 /* friends */
@@ -961,15 +961,19 @@ function goHomeKeepingScroll(){
 /* Scrolls a section into view, offsetting the fixed header so its heading
    is never hidden underneath it. Waits a frame so layout is settled. */
 function scrollToSection(id){
-  requestAnimationFrame(function(){
-    setTimeout(function(){
-      var el=document.getElementById(id); if(!el) return;
-      var header=document.getElementById('header');
-      var offset=(header?header.offsetHeight:74)+18;
-      var y=el.getBoundingClientRect().top+window.pageYOffset-offset;
-      window.scrollTo({top:y>0?y:0,behavior:'smooth'});
-    },90);
-  });
+  // Plain timeout rather than requestAnimationFrame: rAF is suspended while a tab
+  // is hidden, which would silently drop the scroll.
+  setTimeout(function(){
+    var sec=document.getElementById(id); if(!sec) return;
+    var header=document.getElementById('header');
+    var headerH=header?header.offsetHeight:74;
+    // Land on the section's title. Some sections (craft, gift) are two-column and
+    // stack image-first on phones, so aiming at the wrapper would show the photo
+    // with the heading pushed off-screen.
+    var target=sec.querySelector('.sec-head')||sec.querySelector('h1,h2')||sec.querySelector('.wrap')||sec;
+    var y=target.getBoundingClientRect().top+window.pageYOffset-headerH-14;
+    window.scrollTo({top:y>0?y:0,behavior:'smooth'});
+  },60);
 }
 
 /* ---------- cart ---------- */
