@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOOMI — מה השתנה</title>
+<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Heebo:wght@300;400;500;700&family=Frank+Ruhl+Libre:wght@400;500;700&family=Assistant:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#F7F3EC; --cream:#EFE9DE; --oat:#E6DCCB; --beige:#D9CBB6;
+  --brown-deep:#6B5540; --charcoal:#2B2622; --ink:#3A332C; --muted:#8A7F70;
+  --clay:#B67A5E; --line:#E2D8C7; --white:#fff;
+  --new-h:'Amatic SC','Heebo',serif; --new-b:'Heebo',system-ui,sans-serif;
+  --old-h:'Frank Ruhl Libre',Georgia,serif; --old-b:'Assistant',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--new-b);background:var(--ivory);color:var(--ink);line-height:1.7;padding-bottom:80px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+header{padding:52px 0 30px;text-align:center;border-bottom:1px solid var(--line);margin-bottom:40px}
+h1{font-family:var(--new-h);font-weight:700;font-size:3.4rem;line-height:1.05;margin-bottom:6px}
+.sub{color:var(--muted);max-width:56ch;margin:0 auto}
+.eyebrow{font-size:.7rem;letter-spacing:.3em;color:var(--clay);font-weight:600;margin-bottom:10px}
+
+.sec{margin-bottom:44px}
+.sec-t{font-family:var(--new-h);font-weight:700;font-size:2.1rem;margin-bottom:4px}
+.sec-d{color:var(--muted);font-size:.95rem;margin-bottom:20px;max-width:70ch}
+
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.ba{grid-template-columns:1fr}}
+.side{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:26px;position:relative}
+.side.old{opacity:.72;border-style:dashed;background:transparent}
+.badge{position:absolute;top:14px;inset-inline-end:16px;font-size:.62rem;letter-spacing:.16em;
+       padding:3px 10px;border-radius:100px;font-weight:600}
+.badge.o{background:var(--oat);color:var(--brown-deep)}
+.badge.n{background:var(--charcoal);color:var(--ivory)}
+
+/* logo comparison */
+.logo-row{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.logo-row .mark{width:34px;height:34px;display:grid;place-items:center;color:var(--charcoal);flex:0 0 auto}
+.logo-row .mark svg{width:100%;height:100%;display:block}
+.logo-row .mark.old-mark{border-radius:50%;background:var(--charcoal);color:var(--ivory);font-size:.9rem}
+.logo-row .word{font-weight:700;letter-spacing:.06em}
+.new .word{font-family:var(--new-h);font-size:1.95rem}
+.old .word{font-family:var(--old-h);font-size:1.5rem}
+.sizes{display:flex;align-items:center;gap:18px;padding-top:16px;border-top:1px solid var(--line)}
+.sizes .m{display:flex;flex-direction:column;align-items:center;gap:4px}
+.sizes .cap{font-size:.62rem;color:var(--muted)}
+.sizes svg{color:var(--charcoal)}
+
+/* type comparison */
+.t-eyebrow{font-size:.66rem;letter-spacing:.24em;color:var(--clay);font-weight:600;margin-bottom:10px}
+.new .t-h{font-family:var(--new-h);font-weight:700;font-size:3rem;line-height:1.05;margin-bottom:12px}
+.old .t-h{font-family:var(--old-h);font-weight:500;font-size:2.2rem;line-height:1.15;margin-bottom:12px}
+.new .t-b{font-family:var(--new-b);font-weight:300}
+.old .t-b{font-family:var(--old-b)}
+.t-b{font-size:1rem;color:var(--brown-deep);margin-bottom:14px}
+.t-price{font-weight:700;font-size:1.5rem}
+.new .t-price{font-family:var(--new-b)}
+.old .t-price{font-family:var(--old-h)}
+.t-btn{display:inline-block;background:var(--charcoal);color:var(--ivory);border-radius:100px;
+       padding:11px 24px;font-size:.92rem;font-weight:500;margin-top:10px}
+
+.callout{background:var(--cream);border-inline-start:3px solid var(--clay);border-radius:0 14px 14px 0;
+         padding:20px 24px;margin-top:18px}
+.callout p{color:var(--brown-deep);font-size:.95rem}
+.callout p+p{margin-top:8px}
+.callout b{color:var(--charcoal)}
+
+.open{display:block;text-align:center;background:var(--charcoal);color:var(--ivory);text-decoration:none;
+      border-radius:18px;padding:26px;margin-top:36px;transition:transform .18s}
+.open:hover{transform:translateY(-2px)}
+.open .big{font-family:var(--new-h);font-weight:700;font-size:2.2rem;display:block;line-height:1.1}
+.open .small{font-size:.85rem;opacity:.75}
+
+.todo{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:26px;margin-top:22px}
+.todo h3{font-family:var(--new-h);font-weight:700;font-size:1.8rem;margin-bottom:12px}
+.todo li{list-style:none;padding:9px 0;border-bottom:1px solid var(--line);font-size:.95rem;display:flex;gap:10px}
+.todo li:last-child{border-bottom:none}
+.todo .s{flex:0 0 auto}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">LOOMI</div>
+    <h1>מה השתנה</h1>
+    <p class="sub">הכותרת למעלה כבר כתובה בגופן החדש. משמאל מה שהיה, מימין מה שיש עכשיו.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- LOGO -->
+  <div class="sec">
+    <div class="sec-t">הלוגו</div>
+    <p class="sec-d">הסימן הישן היה תו טקסט (◍) בתוך עיגול — פלייסהולדר. עכשיו זה הראש של טופי, משורטט מהתמונה שלך, בלי הקשת הדהויה מעל העין.</p>
+    <div class="ba">
+      <div class="side new">
+        <span class="badge n">עכשיו</span>
+        <div class="logo-row">
+          <span class="mark">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.6 17.4c-1.6-3.4-1.3-7.2 1-8.4 2.3-1.2 5.3.7 7 4"/>
+              <path d="M35.4 17.4c1.6-3.4 1.3-7.2-1-8.4-2.3-1.2-5.3.7-7 4"/>
+              <path d="M24 12.5c7.2 0 12.5 5.6 12.5 13S31.2 39 24 39s-12.5-6.1-12.5-13.5 5.3-13 12.5-13Z"/>
+              <ellipse cx="24" cy="30.5" rx="7.4" ry="5.8"/>
+              <circle cx="18.4" cy="23.6" r="1.8" fill="currentColor" stroke="none"/>
+              <circle cx="29.6" cy="23.6" r="1.8" fill="currentColor" stroke="none"/>
+            </svg>
+          </span>
+          <span class="word">LOOMI</span>
+        </div>
+        <div class="sizes">
+          <div class="m">
+            <svg width="26" height="26" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.6 17.4c-1.6-3.4-1.3-7.2 1-8.4 2.3-1.2 5.3.7 7 4"/><path d="M35.4 17.4c1.6-3.4 1.3-7.2-1-8.4-2.3-1.2-5.3.7-7 4"/>
+              <path d="M24 12.5c7.2 0 12.5 5.6 12.5 13S31.2 39 24 39s-12.5-6.1-12.5-13.5 5.3-13 12.5-13Z"/>
+              <circle cx="18.4" cy="24" r="2.2" fill="currentColor" stroke="none"/><circle cx="29.6" cy="24" r="2.2" fill="currentColor" stroke="none"/>
+            </svg><span class="cap">26px</span>
+          </div>
+          <div class="m">
+            <svg width="16" height="16" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.6 17.4c-1.6-3.4-1.3-7.2 1-8.4 2.3-1.2 5.3.7 7 4"/><path d="M35.4 17.4c1.6-3.4 1.3-7.2-1-8.4-2.3-1.2-5.3.7-7 4"/>
+              <path d="M24 12.5c7.2 0 12.5 5.6 12.5 13S31.2 39 24 39s-12.5-6.1-12.5-13.5 5.3-13 12.5-13Z"/>
+              <circle cx="18.4" cy="24.4" r="2.7" fill="currentColor" stroke="none"/><circle cx="29.6" cy="24.4" r="2.7" fill="currentColor" stroke="none"/>
+            </svg><span class="cap">אייקון טאב</span>
+          </div>
+          <span style="font-size:.8rem;color:var(--muted)">← זה מה שרואים בטאב של הדפדפן</span>
+        </div>
+      </div>
+      <div class="side old">
+        <span class="badge o">קודם</span>
+        <div class="logo-row">
+          <span class="mark old-mark">◍</span>
+          <span class="word">LOOMI</span>
+        </div>
+        <div class="sizes">
+          <div class="m"><span class="old-mark" style="width:26px;height:26px;border-radius:50%;background:var(--charcoal);color:var(--ivory);display:grid;place-items:center;font-size:.75rem">◍</span><span class="cap">26px</span></div>
+          <div class="m"><span class="old-mark" style="width:16px;height:16px;border-radius:50%;background:var(--charcoal);color:var(--ivory);display:grid;place-items:center;font-size:.5rem">◍</span><span class="cap">אייקון טאב</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPE -->
+  <div class="sec">
+    <div class="sec-t">הטיפוגרפיה</div>
+    <p class="sec-d">אותו טקסט בדיוק, בשני הגופנים. Amatic SC הוא גופן כתב־יד — הוא מגיע קטן ודק, אז הגדלתי כל כותרת שמשתמשת בו והעברתי אותו למשקל מלא.</p>
+    <div class="ba">
+      <div class="side new">
+        <span class="badge n">עכשיו</span>
+        <div class="t-eyebrow">עבודת יד · כותנה · מהדורה ראשונה</div>
+        <div class="t-h">חבר קטן,<br>שנעשה בעבודת יד.</div>
+        <p class="t-b">ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית.</p>
+        <span class="t-price">₪249</span>
+        <br><span class="t-btn">הכירו את החברים</span>
+      </div>
+      <div class="side old">
+        <span class="badge o">קודם</span>
+        <div class="t-eyebrow">עבודת יד · כותנה · מהדורה ראשונה</div>
+        <div class="t-h">חבר קטן,<br>שנעשה בעבודת יד.</div>
+        <p class="t-b">ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית.</p>
+        <span class="t-price">₪249</span>
+        <br><span class="t-btn">הכירו את החברים</span>
+      </div>
+    </div>
+    <div class="callout">
+      <p><b>שים לב למחיר.</b> ב־₪249 השארתי במכוון את הגופן הרגיל ולא את כתב היד — ספרות בכתב יד נקראות רע, וזה בדיוק המקום באתר שאסור שיהיה בו רגע של ספק. אותו דבר בסכום בעגלה.</p>
+      <p>אם בא לך שגם המחירים יהיו בכתב יד — אפשר, רק תדע שזה מה שהחלפתי.</p>
+    </div>
+  </div>
+
+  <a class="open" href="index.html">
+    <span class="big">פתח את האתר המלא ←</span>
+    <span class="small">הגופן והלוגו החדשים, חי, עם כל הדמויות והעגלה</span>
+  </a>
+
+  <div class="todo">
+    <h3>מה עוד פתוח</h3>
+    <ul>
+      <li><span class="s">🖼️</span><span><b>קאט־אאוט שקוף ל־4 הבובות.</b> ניסיתי להסיר רקע אוטומטית וזה נכשל — הצבעים הבהירים של הבובות זהים מדי לקיר הלבנים, והאלגוריתם אכל חלקים מהן. צריך 4 קבצי PNG מ־remove.bg.</span></li>
+      <li><span class="s">🎯</span><span><b>פריסה 01 עם hover מדויק לבובה.</b> מחכה לקבצים השקופים — בלעדיהם אי אפשר לזהות איפה נגמרת הבובה.</span></li>
+      <li><span class="s">🚫</span><span><b>פרסום לאתר החי חסום.</b> נגמרו קרדיטים ב־Netlify, הם מתאפסים ב־5 בספטמבר. האתר הקיים ממשיך לעבוד.</span></li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
