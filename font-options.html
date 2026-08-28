@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOOMI — טיפוגרפיה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Secular+One&family=Suez+One&family=Heebo:wght@300;400;500;700&family=Rubik:wght@300;400;500;600&family=Bellefair&family=Frank+Ruhl+Libre:wght@400;500;700&family=Assistant:wght@300;400;600&family=Karantina:wght@300;400;700&family=Amatic+SC:wght@400;700&family=Miriam+Libre:wght@400;700&family=Alef:wght@400;700&family=Noto+Serif+Hebrew:wght@300;400;600&display=swap');
+:root{
+  --paper:#FAF7F2; --card:#fff; --cream:#F1EBE1; --beige:#D9CBB6;
+  --brown:#6B5540; --ink:#2B2622; --muted:#8A7F70; --clay:#B67A5E; --line:#E7DFD2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;padding-bottom:90px}
+.wrap{max-width:960px;margin:0 auto;padding:0 26px}
+header{padding:56px 0 32px;text-align:center;border-bottom:1px solid var(--line);margin-bottom:44px}
+h1{font-family:'Secular One',sans-serif;font-size:2.2rem;font-weight:400;margin-bottom:10px}
+.sub{color:var(--muted);max-width:60ch;margin:0 auto}
+.eyebrow{font-size:.7rem;letter-spacing:.3em;color:var(--clay);font-weight:600;margin-bottom:12px}
+
+.pair{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px;margin-bottom:24px;
+      box-shadow:0 3px 16px rgba(60,45,30,.045)}
+.pair-head{display:flex;align-items:baseline;gap:11px;margin-bottom:3px;flex-wrap:wrap}
+.pair-num{font-family:'Bellefair',serif;font-size:1.4rem;color:var(--beige)}
+.pair-name{font-size:1.1rem;font-weight:600}
+.pair-fonts{font-size:.8rem;color:var(--clay);font-weight:500}
+.pair-why{color:var(--muted);font-size:.9rem;margin-bottom:24px}
+.demo{border-top:1px solid var(--line);padding-top:22px}
+.d-eyebrow{font-size:.68rem;letter-spacing:.26em;color:var(--clay);font-weight:600;margin-bottom:12px}
+.d-h1{font-size:2.5rem;line-height:1.18;margin-bottom:14px}
+.d-body{font-size:1.05rem;color:var(--brown);max-width:46ch;margin-bottom:16px}
+.d-meta{display:flex;gap:20px;flex-wrap:wrap;font-size:.86rem;color:var(--muted)}
+.d-btn{display:inline-block;margin-top:18px;background:var(--ink);color:var(--paper);
+       padding:12px 26px;border-radius:100px;font-size:.94rem;font-weight:500}
+
+/* --- the pairings --- */
+.p1 .d-h1,.p1 .d-eyebrow,.p1 .d-btn{font-family:'Secular One',sans-serif;font-weight:400}
+.p1 .d-body,.p1 .d-meta{font-family:'Heebo',sans-serif;font-weight:300}
+
+.p2 .d-h1{font-family:'Suez One',serif;font-weight:400}
+.p2 .d-eyebrow,.p2 .d-body,.p2 .d-meta,.p2 .d-btn{font-family:'Rubik',sans-serif}
+
+.p3 .d-h1{font-family:'Amatic SC',cursive;font-weight:700;font-size:3.6rem}
+.p3 .d-eyebrow,.p3 .d-body,.p3 .d-meta,.p3 .d-btn{font-family:'Heebo',sans-serif;font-weight:300}
+
+.p4 .d-h1{font-family:'Miriam Libre',sans-serif;font-weight:700}
+.p4 .d-eyebrow,.p4 .d-body,.p4 .d-meta,.p4 .d-btn{font-family:'Alef',sans-serif}
+
+.p5 .d-h1{font-family:'Karantina',cursive;font-weight:700;font-size:3.4rem}
+.p5 .d-eyebrow,.p5 .d-body,.p5 .d-meta,.p5 .d-btn{font-family:'Rubik',sans-serif;font-weight:300}
+
+.p6 .d-h1{font-family:'Noto Serif Hebrew',serif;font-weight:600}
+.p6 .d-eyebrow,.p6 .d-body,.p6 .d-meta,.p6 .d-btn{font-family:'Rubik',sans-serif;font-weight:400}
+
+.p0 .d-h1{font-family:'Frank Ruhl Libre',serif;font-weight:500}
+.p0 .d-eyebrow,.p0 .d-body,.p0 .d-meta,.p0 .d-btn{font-family:'Assistant',sans-serif}
+.p0{opacity:.72;border-style:dashed}
+
+.note{background:var(--cream);border-inline-start:3px solid var(--clay);border-radius:0 14px 14px 0;padding:22px 26px;margin-top:36px}
+.note h3{font-family:'Secular One',sans-serif;font-size:1.12rem;font-weight:400;margin-bottom:8px}
+.note p{color:var(--brown);font-size:.96rem}
+.note p+p{margin-top:9px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">LOOMI</div>
+    <h1>טיפוגרפיה עברית</h1>
+    <p class="sub">כל צירוף מוצג עם אותו טקסט אמיתי מהאתר, כדי להשוות באותם תנאים. הראשון למטה (מסומן בקו מקווקו) הוא מה שיש היום.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="pair p1">
+    <div class="pair-head"><span class="pair-num">01</span><span class="pair-name">נקי ועכשווי</span><span class="pair-fonts">Secular One + Heebo</span></div>
+    <p class="pair-why">כותרות עגלגלות ומלאות ביטחון, גוף טקסט קליל. הכי "מותג ישראלי צעיר" — בולט מיד ליד הגופנים הרגילים.</p>
+    <div class="demo">
+      <div class="d-eyebrow">עבודת יד · כותנה · מהדורה ראשונה</div>
+      <div class="d-h1">חבר קטן,<br>שנעשה בעבודת יד.</div>
+      <p class="d-body">ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית.</p>
+      <div class="d-meta"><span>🧶 100% עבודת יד</span><span>🎁 מגיע ארוז למתנה</span></div>
+      <span class="d-btn">הכירו את החברים</span>
+    </div>
+  </div>
+
+  <div class="pair p2">
+    <div class="pair-head"><span class="pair-num">02</span><span class="pair-name">חם ומודפס</span><span class="pair-fonts">Suez One + Rubik</span></div>
+    <p class="pair-why">סריף עברי כבד עם אופי של דפוס ישן, מול סאנס מודרני ונעים. מרגיש יקר ומבוסס — הכי קרוב ל"פרימיום" בלי להיות מנופח.</p>
+    <div class="demo">
+      <div class="d-eyebrow">עבודת יד · כותנה · מהדורה ראשונה</div>
+      <div class="d-h1">חבר קטן,<br>שנעשה בעבודת יד.</div>
+      <p class="d-body">ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית.</p>
+      <div class="d-meta"><span>🧶 100% עבודת יד</span><span>🎁 מגיע ארוז למתנה</span></div>
+      <span class="d-btn">הכירו את החברים</span>
+    </div>
+  </div>
+
+  <div class="pair p3">
+    <div class="pair-head"><span class="pair-num">03</span><span class="pair-name">כתב יד</span><span class="pair-fonts">Amatic SC + Heebo</span></div>
+    <p class="pair-why">כותרות דקות בכתב יד — מתכתב ישירות עם "נעשה ביד". הכי מקורי ואישי, אבל גם הכי מסוכן: פחות קריא בכותרות ארוכות.</p>
+    <div class="demo">
+      <div class="d-eyebrow">עבודת יד · כותנה · מהדורה ראשונה</div>
+      <div class="d-h1">חבר קטן, שנעשה בעבודת יד.</div>
+      <p class="d-body">ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית.</p>
+      <div class="d-meta"><span>🧶 100% עבודת יד</span><span>🎁 מגיע ארוז למתנה</span></div>
+      <span class="d-btn">הכירו את החברים</span>
+    </div>
+  </div>
+
+  <div class="pair p4">
+    <div class="pair-head"><span class="pair-num">04</span><span class="pair-name">רך ועגול</span><span class="pair-fonts">Miriam Libre + Alef</span></div>
+    <p class="pair-why">אותיות רחבות ונושמות עם פינות מעוגלות. חמים ונגיש בלי להיות ילדותי — מתאים במיוחד לקהל של הורים.</p>
+    <div class="demo">
+      <div class="d-eyebrow">עבודת יד · כותנה · מהדורה ראשונה</div>
+      <div class="d-h1">חבר קטן,<br>שנעשה בעבודת יד.</div>
+      <p class="d-body">ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית.</p>
+      <div class="d-meta"><span>🧶 100% עבודת יד</span><span>🎁 מגיע ארוז למתנה</span></div>
+      <span class="d-btn">הכירו את החברים</span>
+    </div>
+  </div>
+
+  <div class="pair p5">
+    <div class="pair-head"><span class="pair-num">05</span><span class="pair-name">צר ואופנתי</span><span class="pair-fonts">Karantina + Rubik</span></div>
+    <p class="pair-why">כותרות צרות וגבוהות בסגנון מגזין. הכי "עיצובי" ואופנתי מכולם — אבל מושך את המבט לטיפוגרפיה במקום למוצר.</p>
+    <div class="demo">
+      <div class="d-eyebrow">עבודת יד · כותנה · מהדורה ראשונה</div>
+      <div class="d-h1">חבר קטן,<br>שנעשה בעבודת יד.</div>
+      <p class="d-body">ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית.</p>
+      <div class="d-meta"><span>🧶 100% עבודת יד</span><span>🎁 מגיע ארוז למתנה</span></div>
+      <span class="d-btn">הכירו את החברים</span>
+    </div>
+  </div>
+
+  <div class="pair p6">
+    <div class="pair-head"><span class="pair-num">06</span><span class="pair-name">סריף שקט</span><span class="pair-fonts">Noto Serif Hebrew + Rubik</span></div>
+    <p class="pair-why">סריף עדין ומאופק, קרוב לרוח הנוכחית אבל מודרני ופחות שגרתי. הכי בטוח מבין החדשים.</p>
+    <div class="demo">
+      <div class="d-eyebrow">עבודת יד · כותנה · מהדורה ראשונה</div>
+      <div class="d-h1">חבר קטן,<br>שנעשה בעבודת יד.</div>
+      <p class="d-body">ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית.</p>
+      <div class="d-meta"><span>🧶 100% עבודת יד</span><span>🎁 מגיע ארוז למתנה</span></div>
+      <span class="d-btn">הכירו את החברים</span>
+    </div>
+  </div>
+
+  <div class="pair p0">
+    <div class="pair-head"><span class="pair-num">00</span><span class="pair-name">מה שיש היום</span><span class="pair-fonts">Frank Ruhl Libre + Assistant</span></div>
+    <p class="pair-why">קלאסי ותקין — אבל שני הגופנים הכי נפוצים באתרים בעברית, ולכן לא נותנים למותג קול משלו.</p>
+    <div class="demo">
+      <div class="d-eyebrow">עבודת יד · כותנה · מהדורה ראשונה</div>
+      <div class="d-h1">חבר קטן,<br>שנעשה בעבודת יד.</div>
+      <p class="d-body">ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית.</p>
+      <div class="d-meta"><span>🧶 100% עבודת יד</span><span>🎁 מגיע ארוז למתנה</span></div>
+      <span class="d-btn">הכירו את החברים</span>
+    </div>
+  </div>
+
+  <div class="note">
+    <h3>ההמלצה שלי</h3>
+    <p><strong>02 (Suez One + Rubik)</strong> — הוא נותן בדיוק את התחושה היקרה שחיפשת, ועדיין קריא לגמרי בכותרות ארוכות בעברית. Rubik בגוף הטקסט נעים מאוד לקריאה ארוכה ונראה הרבה פחות שגרתי מ-Assistant.</p>
+    <p>אם בא לך משהו צעיר ובועט יותר — <strong>01</strong>. ואם אתה רוצה להמר על אופי חזק ולהתחבר לסיפור של עבודת היד — <strong>03</strong>, אבל אז כדאי להשתמש בו רק בכותרות הגדולות ולא בכל מקום.</p>
+  </div>
+
+</div>
+</body>
+</html>

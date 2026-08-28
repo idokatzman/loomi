@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOOMI — פריסות עמוד</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Suez+One&family=Rubik:wght@300;400;500;600&family=Secular+One&display=swap');
+:root{
+  --paper:#FAF7F2;        /* off-white — not pure #fff */
+  --card:#fff; --cream:#F1EBE1; --oat:#E6DCCB; --beige:#D9CBB6;
+  --brown:#6B5540; --ink:#2B2622; --muted:#8A7F70; --clay:#B67A5E; --line:#E7DFD2;
+  --display:'Suez One',Georgia,serif; --sans:'Rubik',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#EDE8E0;color:var(--ink);line-height:1.7;padding-bottom:90px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 26px}
+header{padding:56px 0 30px;text-align:center;border-bottom:1px solid var(--beige);margin-bottom:42px;background:var(--paper)}
+h1{font-family:var(--display);font-size:2.1rem;font-weight:400;margin-bottom:10px}
+.sub{color:var(--muted);max-width:62ch;margin:0 auto}
+.eyebrow{font-size:.7rem;letter-spacing:.3em;color:var(--clay);font-weight:600;margin-bottom:12px}
+
+.block{margin-bottom:56px}
+.b-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+.b-num{font-family:var(--display);font-size:1.5rem;color:var(--beige)}
+.b-name{font-family:var(--display);font-size:1.35rem;font-weight:400}
+.b-why{color:var(--muted);font-size:.94rem;margin-bottom:20px;max-width:74ch}
+.b-why strong{color:var(--brown)}
+
+/* device frames */
+.frames{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start}
+@media(max-width:1000px){ .frames{grid-template-columns:1fr} }
+.frame{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 6px 26px rgba(60,45,30,.13);border:1px solid var(--line)}
+.frame-bar{background:var(--cream);padding:7px 14px;font-size:.68rem;color:var(--muted);letter-spacing:.1em;
+           border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+.screen{background:var(--paper);overflow:hidden}
+.desktop .screen{height:430px}
+.phone .screen{height:560px}
+
+/* ---- shared mini-site styling inside frames ---- */
+.mini-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 18px;border-bottom:1px solid var(--line)}
+.mini-burger{display:flex;flex-direction:column;gap:3.5px;justify-self:left}
+.mini-burger span{width:16px;height:1.6px;background:var(--ink);border-radius:2px}
+.mini-logo{font-family:var(--display);font-size:.98rem;letter-spacing:.08em;justify-self:center}
+.mini-right{justify-self:right;font-size:.62rem;color:var(--muted)}
+.mini-h{font-family:var(--display);font-size:1.5rem;line-height:1.2}
+.mini-p{font-size:.72rem;color:var(--brown)}
+.mini-btn{display:inline-block;background:var(--ink);color:var(--paper);border-radius:100px;
+          padding:7px 16px;font-size:.66rem;font-weight:500}
+.mini-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.mini-eyebrow{font-size:.54rem;letter-spacing:.22em;color:var(--clay);font-weight:600}
+.price{font-size:.7rem;font-weight:600}
+
+.note{background:var(--paper);border-inline-start:3px solid var(--clay);border-radius:0 14px 14px 0;padding:22px 26px;margin-top:8px}
+.note h3{font-family:var(--display);font-size:1.1rem;font-weight:400;margin-bottom:8px}
+.note p{color:var(--brown);font-size:.95rem}
+.note p+p{margin-top:9px}
+
+/* ============ 01 — SPOTLIGHT (the requested concept) ============ */
+.spot{height:100%;display:flex;flex-direction:column;background:var(--paper)}
+.spot-top{padding:16px 20px 8px;text-align:center}
+.spot-stage{flex:1;display:flex;position:relative;overflow:hidden}
+.spot-row{flex:1;display:flex;align-items:flex-end;gap:0;padding:0 10px 14px;transition:filter .4s}
+.spot-item{flex:1;position:relative;cursor:pointer;transition:opacity .35s,filter .35s,transform .35s;
+           display:flex;flex-direction:column;align-items:center;gap:5px}
+.spot-item img{width:100%;height:150px;object-fit:contain;display:block}
+.spot-item .nm{font-family:var(--display);font-size:.76rem}
+.spot-item .rl{font-size:.56rem;color:var(--clay)}
+.spot-stage:hover .spot-item{opacity:.32;filter:grayscale(1)}
+.spot-stage .spot-item:hover{opacity:1;filter:grayscale(0);transform:translateY(-8px)}
+.spot-panel{position:absolute;inset-block:0;inset-inline-end:0;width:44%;background:var(--card);
+            border-inline-start:1px solid var(--line);box-shadow:-10px 0 30px rgba(60,45,30,.10);
+            padding:20px 18px;display:flex;flex-direction:column;justify-content:center;gap:7px;
+            transform:translateX(-100%);opacity:0;transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .3s;pointer-events:none}
+[dir=rtl] .spot-panel{transform:translateX(100%)}
+.spot-panel.on{transform:translateX(0)!important;opacity:1}
+.spot-panel .nm{font-family:var(--display);font-size:1.15rem}
+.spot-panel .rl{font-size:.6rem;color:var(--clay);font-weight:600}
+.spot-panel .ds{font-size:.66rem;color:var(--brown);line-height:1.6}
+.spot-panel ul{list-style:none;font-size:.6rem;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.spot-panel li::before{content:'· '}
+
+/* phone variant of 01 */
+.spot-ph .spot-row{flex-wrap:wrap;gap:8px;align-content:flex-start;padding:12px}
+.spot-ph .spot-item{flex:0 0 calc(50% - 4px)}
+.spot-ph .spot-item img{height:104px}
+.spot-ph .spot-panel{inset:auto 0 0 0;width:100%;height:46%;border-inline-start:none;border-top:1px solid var(--line);
+                     transform:translateY(100%);box-shadow:0 -10px 30px rgba(60,45,30,.12)}
+.spot-ph .spot-panel.on{transform:translateY(0)!important}
+
+/* ============ 02 — SPLIT ============ */
+.split{height:100%;display:grid;grid-template-columns:1fr 1fr}
+.split-copy{padding:26px 22px;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.split-img{background:var(--cream);display:grid;place-items:center;overflow:hidden}
+.split-img img{width:100%;height:100%;object-fit:cover}
+.split-ph{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+.split-ph .split-img img{height:200px}
+
+/* ============ 03 — EDITORIAL ============ */
+.edi{height:100%;overflow-y:auto}
+.edi-hero{position:relative;height:190px;background:var(--cream)}
+.edi-hero img{width:100%;height:100%;object-fit:cover}
+.edi-hero .cap{position:absolute;inset-inline-start:16px;bottom:14px;background:rgba(250,247,242,.94);
+               padding:7px 14px;border-radius:100px;font-family:var(--display);font-size:.7rem}
+.edi-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 16px;align-items:center}
+.edi-row img{width:100%;height:96px;object-fit:contain;background:var(--cream);border-radius:10px}
+.edi-row:nth-child(odd) img{order:2}
+
+/* ============ 04 — GRID ============ */
+.grid4{height:100%;display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:6px;padding:6px}
+.g-cell{background:var(--cream);border-radius:10px;overflow:hidden;position:relative;display:grid;place-items:center}
+.g-cell img{width:100%;height:100%;object-fit:contain;padding:6px}
+.g-cell .lbl{position:absolute;bottom:6px;inset-inline-start:8px;font-family:var(--display);font-size:.62rem;
+             background:rgba(250,247,242,.92);padding:2px 8px;border-radius:100px}
+.g-hero{grid-row:span 2;background:var(--oat)}
+.g-hero img{object-fit:cover;padding:0}
+.grid4-ph{grid-template-columns:1fr 1fr;grid-template-rows:1.3fr 1fr 1fr}
+.grid4-ph .g-hero{grid-row:span 1;grid-column:span 2}
+
+/* ============ 05 — SCROLL STORY ============ */
+.story5{height:100%;overflow-y:auto;scroll-snap-type:y mandatory}
+.story-pane{height:100%;scroll-snap-align:start;display:grid;grid-template-columns:1fr 1fr;
+            align-items:center;gap:16px;padding:22px;border-bottom:1px solid var(--line)}
+.story-pane img{width:100%;height:210px;object-fit:contain}
+.story-pane.ph{grid-template-columns:1fr;text-align:center}
+.story-pane.ph img{height:230px}
+.scroll-hint{position:absolute;bottom:10px;inset-inline:0;text-align:center;font-size:.56rem;color:var(--muted)}
+.rel{position:relative}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">LOOMI</div>
+    <h1>חמש פריסות לעמוד הבית</h1>
+    <p class="sub">כל פריסה מוצגת פעמיים — במסך מחשב וגם בטלפון — כי מה שעובד יפה ברוחב 1200 פיקסל לא בהכרח עובד ב-390. הראשונה היא הרעיון שלך, בנוי ועובד: תעביר עליה עכבר.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============ 01 ============ -->
+<div class="block">
+  <div class="b-head"><span class="b-num">01</span><span class="b-name">זרקור — הרעיון שלך</span></div>
+  <p class="b-why">רקע לבן-שבור (<strong>#FAF7F2</strong>, לא לבן מוחלט), כל ארבע הבובות בשורה אחת. <strong>מעבר עכבר על אחת — השאר נהיות אפורות ודהויות, והיא נשארת צבעונית ועולה מעט.</strong> במקביל נכנס פאנל מהצד עם התיאור וכפתור קנייה. בטלפון אין hover, אז זה הופך ללחיצה והפאנל עולה מלמטה. <em>נסה עכשיו על המסגרת השמאלית.</em></p>
+  <div class="frames">
+    <div class="frame desktop">
+      <div class="frame-bar"><span>מחשב · 1280×800</span><span>hover פעיל</span></div>
+      <div class="screen">
+        <div class="spot">
+          <div class="mini-nav"><div class="mini-burger"><span></span><span></span><span></span></div><div class="mini-logo">LOOMI</div><div class="mini-right">עב | EN · עגלה</div></div>
+          <div class="spot-top"><div class="mini-eyebrow">הקולקציה</div><div class="mini-h" style="font-size:1.25rem">לכל אחד יש אופי.</div></div>
+          <div class="spot-stage" id="stage1">
+            <div class="spot-row">
+              <div class="spot-item" data-i="0"><img src="images/cat-main-sm.jpg" alt=""><span class="nm">מיצי</span><span class="rl">החולמנית</span></div>
+              <div class="spot-item" data-i="1"><img src="images/raccoon-main-sm.jpg" alt=""><span class="nm">ריקו</span><span class="rl">ההרפתקן</span></div>
+              <div class="spot-item" data-i="2"><img src="images/dog-main-sm.jpg" alt=""><span class="nm">טופי</span><span class="rl">הנאמן</span></div>
+              <div class="spot-item" data-i="3"><img src="images/bear-main-sm.jpg" alt=""><span class="nm">לולה</span><span class="rl">הרכה</span></div>
+            </div>
+            <div class="spot-panel" id="panel1">
+              <span class="rl" id="p1r"></span>
+              <span class="nm" id="p1n"></span>
+              <p class="ds" id="p1d"></p>
+              <ul id="p1b"></ul>
+              <span class="price" id="p1p"></span>
+              <span class="mini-btn" style="align-self:flex-start">הוספה לעגלה</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame phone">
+      <div class="frame-bar"><span>טלפון · 390×844</span><span>לחיצה</span></div>
+      <div class="screen">
+        <div class="spot spot-ph">
+          <div class="mini-nav"><div class="mini-burger"><span></span><span></span><span></span></div><div class="mini-logo">LOOMI</div><div class="mini-right">עגלה</div></div>
+          <div class="spot-top"><div class="mini-h" style="font-size:1.05rem">לכל אחד יש אופי.</div></div>
+          <div class="spot-stage" id="stage2">
+            <div class="spot-row">
+              <div class="spot-item" data-i="0"><img src="images/cat-main-sm.jpg" alt=""><span class="nm">מיצי</span></div>
+              <div class="spot-item" data-i="1"><img src="images/raccoon-main-sm.jpg" alt=""><span class="nm">ריקו</span></div>
+              <div class="spot-item" data-i="2"><img src="images/dog-main-sm.jpg" alt=""><span class="nm">טופי</span></div>
+              <div class="spot-item" data-i="3"><img src="images/bear-main-sm.jpg" alt=""><span class="nm">לולה</span></div>
+            </div>
+            <div class="spot-panel" id="panel2">
+              <span class="rl" id="p2r"></span><span class="nm" id="p2n"></span>
+              <p class="ds" id="p2d"></p><span class="price" id="p2p"></span>
+              <span class="mini-btn" style="align-self:flex-start">הוספה לעגלה</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 02 ============ -->
+<div class="block">
+  <div class="b-head"><span class="b-num">02</span><span class="b-name">מפוצל</span></div>
+  <p class="b-why">חצי טקסט, חצי תמונה גדולה. <strong>הכי ברור ומוכר</strong> — המסר והכפתור נקראים מיד בלי גלילה. בטלפון זה נערם: תמונה למעלה, טקסט מתחת. בטוח, מהיר להבנה, אבל פחות מפתיע.</p>
+  <div class="frames">
+    <div class="frame desktop">
+      <div class="frame-bar"><span>מחשב · 1280×800</span><span></span></div>
+      <div class="screen">
+        <div class="split">
+          <div class="split-copy">
+            <div class="mini-eyebrow">עבודת יד · כותנה</div>
+            <div class="mini-h">חבר קטן,<br>שנעשה בעבודת יד.</div>
+            <p class="mini-p">ארבע דמויות סרוגות ביד, שמחכות למצוא בית.</p>
+            <div style="display:flex;gap:7px;margin-top:4px"><span class="mini-btn">הכירו את החברים</span><span class="mini-btn ghost">איך זה נעשה</span></div>
+          </div>
+          <div class="split-img"><img src="images/family-main-sm.jpg" alt=""></div>
+        </div>
+      </div>
+    </div>
+    <div class="frame phone">
+      <div class="frame-bar"><span>טלפון · 390×844</span><span></span></div>
+      <div class="screen">
+        <div class="split split-ph">
+          <div class="split-img"><img src="images/family-main-sm.jpg" alt="" style="height:200px"></div>
+          <div class="split-copy" style="text-align:center;align-items:center">
+            <div class="mini-eyebrow">עבודת יד · כותנה</div>
+            <div class="mini-h" style="font-size:1.2rem">חבר קטן,<br>שנעשה בעבודת יד.</div>
+            <p class="mini-p">ארבע דמויות סרוגות ביד.</p>
+            <span class="mini-btn">הכירו את החברים</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 03 ============ -->
+<div class="block">
+  <div class="b-head"><span class="b-num">03</span><span class="b-name">מגזין</span></div>
+  <p class="b-why">תמונה רחבה שתופסת את כל הרוחב, ואז שורות מתחלפות — תמונה מימין, טקסט משמאל, ולהפך. <strong>מרגיש כמו מגזין עיצוב</strong> ונותן לכל דמות רגע משלה. דורש גלילה, אז ה"קנה עכשיו" רחוק יותר.</p>
+  <div class="frames">
+    <div class="frame desktop">
+      <div class="frame-bar"><span>מחשב · 1280×800</span><span>גלול בתוך המסגרת</span></div>
+      <div class="screen">
+        <div class="edi">
+          <div class="edi-hero"><img src="images/pairs-chairs-sm.jpg" alt=""><span class="cap">בחרו חבר. תנו לו שם.</span></div>
+          <div class="edi-row"><img src="images/cat-main-sm.jpg" alt=""><div><div class="mini-h" style="font-size:1rem">מיצי</div><p class="mini-p">החולמנית — שקטה, סקרנית ותמיד ליד החלון.</p><span class="price">₪249</span></div></div>
+          <div class="edi-row"><img src="images/raccoon-main-sm.jpg" alt=""><div><div class="mini-h" style="font-size:1rem">ריקו</div><p class="mini-p">ההרפתקן — עם תרמיל על הגב ומסכה קטנה.</p><span class="price">₪249</span></div></div>
+          <div class="edi-row"><img src="images/dog-main-sm.jpg" alt=""><div><div class="mini-h" style="font-size:1rem">טופי</div><p class="mini-p">הנאמן — כתם על העין ולב גדול.</p><span class="price">₪249</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="frame phone">
+      <div class="frame-bar"><span>טלפון · 390×844</span><span>גלול</span></div>
+      <div class="screen">
+        <div class="edi">
+          <div class="edi-hero" style="height:150px"><img src="images/pairs-chairs-sm.jpg" alt=""><span class="cap">בחרו חבר.</span></div>
+          <div class="edi-row" style="grid-template-columns:1fr"><img src="images/cat-main-sm.jpg" alt="" style="order:0!important"><div style="text-align:center"><div class="mini-h" style="font-size:1rem">מיצי</div><p class="mini-p">החולמנית</p><span class="price">₪249</span></div></div>
+          <div class="edi-row" style="grid-template-columns:1fr"><img src="images/raccoon-main-sm.jpg" alt="" style="order:0!important"><div style="text-align:center"><div class="mini-h" style="font-size:1rem">ריקו</div><p class="mini-p">ההרפתקן</p><span class="price">₪249</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 04 ============ -->
+<div class="block">
+  <div class="b-head"><span class="b-num">04</span><span class="b-name">רשת</span></div>
+  <p class="b-why">כל הקולקציה נראית במסך אחד, בלי גלילה בכלל. תמונה אחת גדולה ושאר הדמויות סביבה. <strong>הכי טוב אם המטרה היא שיראו את כולן מיד</strong> ויבחרו — אבל פחות מקום לספר סיפור.</p>
+  <div class="frames">
+    <div class="frame desktop">
+      <div class="frame-bar"><span>מחשב · 1280×800</span><span></span></div>
+      <div class="screen">
+        <div class="grid4">
+          <div class="g-cell g-hero"><img src="images/family-main-sm.jpg" alt=""><span class="lbl">הקולקציה</span></div>
+          <div class="g-cell"><img src="images/cat-main-sm.jpg" alt=""><span class="lbl">מיצי</span></div>
+          <div class="g-cell"><img src="images/raccoon-main-sm.jpg" alt=""><span class="lbl">ריקו</span></div>
+          <div class="g-cell"><img src="images/dog-main-sm.jpg" alt=""><span class="lbl">טופי</span></div>
+          <div class="g-cell"><img src="images/bear-main-sm.jpg" alt=""><span class="lbl">לולה</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="frame phone">
+      <div class="frame-bar"><span>טלפון · 390×844</span><span></span></div>
+      <div class="screen">
+        <div class="grid4 grid4-ph">
+          <div class="g-cell g-hero"><img src="images/family-main-sm.jpg" alt=""><span class="lbl">הקולקציה</span></div>
+          <div class="g-cell"><img src="images/cat-main-sm.jpg" alt=""><span class="lbl">מיצי</span></div>
+          <div class="g-cell"><img src="images/raccoon-main-sm.jpg" alt=""><span class="lbl">ריקו</span></div>
+          <div class="g-cell"><img src="images/dog-main-sm.jpg" alt=""><span class="lbl">טופי</span></div>
+          <div class="g-cell"><img src="images/bear-main-sm.jpg" alt=""><span class="lbl">לולה</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 05 ============ -->
+<div class="block">
+  <div class="b-head"><span class="b-num">05</span><span class="b-name">מסך לכל דמות</span></div>
+  <p class="b-why">כל גלילה נועלת על דמות אחת במסך מלא. <strong>הכי דרמטי — כל בובה מקבלת במה שלמה</strong>, וזה מרגיש כמו סטורי באינסטגרם, מה שמתאים בול לקהל שמגיע משם. החיסרון: צריך לגלול הרבה כדי לראות את כולן.</p>
+  <div class="frames">
+    <div class="frame desktop rel">
+      <div class="frame-bar"><span>מחשב · 1280×800</span><span>גלול בתוך המסגרת</span></div>
+      <div class="screen">
+        <div class="story5">
+          <div class="story-pane"><img src="images/cat-main-sm.jpg" alt=""><div><div class="mini-eyebrow">01 · הקולקציה</div><div class="mini-h">מיצי</div><p class="mini-p">החולמנית — שקטה וסקרנית.</p><span class="price">₪249</span><br><span class="mini-btn" style="margin-top:8px">הוספה לעגלה</span></div></div>
+          <div class="story-pane"><img src="images/raccoon-main-sm.jpg" alt=""><div><div class="mini-eyebrow">02 · הקולקציה</div><div class="mini-h">ריקו</div><p class="mini-p">ההרפתקן — תרמיל ומסכה.</p><span class="price">₪249</span><br><span class="mini-btn" style="margin-top:8px">הוספה לעגלה</span></div></div>
+          <div class="story-pane"><img src="images/dog-main-sm.jpg" alt=""><div><div class="mini-eyebrow">03 · הקולקציה</div><div class="mini-h">טופי</div><p class="mini-p">הנאמן — כתם על העין.</p><span class="price">₪249</span><br><span class="mini-btn" style="margin-top:8px">הוספה לעגלה</span></div></div>
+        </div>
+      </div>
+      <span class="scroll-hint">↕ גלילה נועלת על כל דמות</span>
+    </div>
+    <div class="frame phone">
+      <div class="frame-bar"><span>טלפון · 390×844</span><span>גלול</span></div>
+      <div class="screen">
+        <div class="story5">
+          <div class="story-pane ph"><img src="images/cat-main-sm.jpg" alt=""><div><div class="mini-h">מיצי</div><p class="mini-p">החולמנית</p><span class="mini-btn">הוספה לעגלה</span></div></div>
+          <div class="story-pane ph"><img src="images/raccoon-main-sm.jpg" alt=""><div><div class="mini-h">ריקו</div><p class="mini-p">ההרפתקן</p><span class="mini-btn">הוספה לעגלה</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="note">
+  <h3>מה שכדאי לשקול</h3>
+  <p><strong>01 (הרעיון שלך) עובד — ויפה.</strong> אבל שים לב לדבר אחד: רוב הלקוחות שלך יגיעו מאינסטגרם ומוואטסאפ, כלומר <em>מהטלפון</em> — ובטלפון אין hover בכלל. לכן בנית שם גרסה שעובדת בלחיצה. זה בסדר גמור, רק חשוב לדעת שהאפקט היפה של "כולם נהיים אפורים" יראה בעיקר קהל מחשב, שהוא המיעוט.</p>
+  <p><strong>ההצעה שלי:</strong> לשלב — <strong>02 בראש העמוד</strong> (מסר ברור וכפתור מיד, עובד מצוין בטלפון), ומתחתיו <strong>01 כמקטע הקולקציה</strong>. ככה מקבלים גם את הבהירות וגם את האפקט המיוחד, וכל אחד מהם עובד במקום שבו הוא חזק.</p>
+</div>
+
+</div>
+
+<script>
+var DOLLS=[
+  {n:'מיצי',r:'החולמנית',d:'חתולה סרוגה בשמלה חומה, עם זנב ארוך ומבט שקט. אוהבת חלונות ושמש.',p:'₪249',b:['גובה 32 ס״מ','כותנה 100%','שם סרוג בהזמנה']},
+  {n:'ריקו',r:'ההרפתקן',d:'רקון עם תרמיל קטן על הגב, מסכה כהה וזנב מפוספס. תמיד מוכן לצאת לדרך.',p:'₪249',b:['גובה 34 ס״מ','כותנה 100%','שם סרוג בהזמנה']},
+  {n:'טופי',r:'הנאמן',d:'כלבלב עם כתם חום על העין ואוזניים עגולות. לא עוזב אתכם לרגע.',p:'₪249',b:['גובה 33 ס״מ','כותנה 100%','שם סרוג בהזמנה']},
+  {n:'לולה',r:'הרכה',d:'דובה בשמלת טוטו ורודה עם סרט בשיער. הכי טובה לחיבוק לפני השינה.',p:'₪249',b:['גובה 30 ס״מ','כותנה 100%','שם סרוג בהזמנה']}
+];
+function fill(pre,i){
+  var d=DOLLS[i];
+  document.getElementById(pre+'n').textContent=d.n;
+  document.getElementById(pre+'r').textContent=d.r;
+  document.getElementById(pre+'d').textContent=d.d;
+  document.getElementById(pre+'p').textContent=d.p;
+  var ul=document.getElementById(pre+'b');
+  if(ul) ul.innerHTML=d.b.map(function(x){return '<li>'+x+'</li>';}).join('');
+}
+/* desktop: hover */
+var s1=document.getElementById('stage1'), pn1=document.getElementById('panel1');
+s1.querySelectorAll('.spot-item').forEach(function(el){
+  el.addEventListener('mouseenter',function(){ fill('p1',+el.dataset.i); pn1.classList.add('on'); });
+});
+s1.addEventListener('mouseleave',function(){ pn1.classList.remove('on'); });
+/* phone: tap */
+var s2=document.getElementById('stage2'), pn2=document.getElementById('panel2'), cur=null;
+s2.querySelectorAll('.spot-item').forEach(function(el){
+  el.addEventListener('click',function(){
+    var i=+el.dataset.i;
+    if(cur===i){ pn2.classList.remove('on'); cur=null; s2.querySelectorAll('.spot-item').forEach(function(x){x.style.opacity='';x.style.filter='';}); return; }
+    cur=i; fill('p2',i); pn2.classList.add('on');
+    s2.querySelectorAll('.spot-item').forEach(function(x){
+      var on = x===el;
+      x.style.opacity = on?'1':'.32';
+      x.style.filter  = on?'none':'grayscale(1)';
+    });
+  });
+});
+</script>
+</body>
+</html>
