@@ -274,7 +274,9 @@ body.en .safety-note{display:none}
 .ci-meta{font-size:.8rem;color:var(--muted);margin:2px 0 6px}
 .ci-card{font-size:.92rem;font-weight:700;color:var(--brown-deep);font-family:var(--serif);margin:0 0 6px;line-height:1.4}
 .ci-price{font-weight:600}
-.ci-remove{color:var(--muted);font-size:.78rem;text-decoration:underline;cursor:pointer}
+.ci-actions{display:flex;gap:14px}
+.ci-remove,.ci-edit{color:var(--muted);font-size:.78rem;text-decoration:underline;cursor:pointer}
+.ci-edit{color:var(--clay)}
 .drawer-foot{padding:24px;border-top:1px solid var(--line)}
 .drawer-foot .sum{display:flex;justify-content:space-between;font-size:1.16rem;font-weight:700;margin-bottom:6px}
 .ship-note{color:var(--muted);font-size:.8rem;margin-bottom:16px}
@@ -684,7 +686,7 @@ var I18N = {
     acc_pers_t:'התאמה אישית', acc_pers_b:'השם נסרג בעבודת יד על החבר, באותיות עבריות או לועזיות, עד 12 תווים.',
     cart_title:'העגלה שלכם', cart_empty:'העגלה עדיין ריקה', cart_empty_sub:'בחרו חבר קטן שיהיה שלכם.',
     cart_ship:'המשלוח מתואם איתכם בוואטסאפ.', cart_wa:'השלמת הזמנה בוואטסאפ',
-    cart_pay_note:"סיום ההזמנה והתשלום נעשים בצ'אט, בנוחות ובבטחה.", cart_remove:'הסרה',
+    cart_pay_note:"סיום ההזמנה והתשלום נעשים בצ'אט, בנוחות ובבטחה.", cart_remove:'הסרה', cart_edit:'עריכה', cart_update:'עדכון הפריט',
     ci_name:'שם: ', ci_gift:'אריזת מתנה', ci_noname:'ללא שם', ci_card:'ברכה',
     card_lbl:'איזו ברכה לכתוב בכרטיס?', card_prev:'על הכרטיס יופיע:',
     wa_float:'יש שאלה? דברו איתנו',
@@ -737,7 +739,7 @@ var I18N = {
     acc_pers_t:'Personalization', acc_pers_b:'The name is hand-crocheted onto your friend, in Hebrew or Latin letters, up to 12 characters.',
     cart_title:'Your cart', cart_empty:'Your cart is empty', cart_empty_sub:'Choose a little friend to call your own.',
     cart_ship:'Delivery is arranged with you on WhatsApp.', cart_wa:'Complete order on WhatsApp',
-    cart_pay_note:'Your order and payment are completed in the chat — easy and secure.', cart_remove:'Remove',
+    cart_pay_note:'Your order and payment are completed in the chat — easy and secure.', cart_remove:'Remove', cart_edit:'Edit', cart_update:'Update item',
     ci_name:'Name: ', ci_gift:'Gift box', ci_noname:'No name', ci_card:'Card',
     card_lbl:'Which greeting should we write?', card_prev:'The card will read:',
     wa_float:'Have a question? Chat with us',
@@ -746,7 +748,7 @@ var I18N = {
   }
 };
 
-var LANG='he', cart=[], pdp={char:null,name:false,nameVal:'',gift:false,card:0}, activeOcc=null;
+var LANG='he', cart=[], pdp={char:null,name:false,nameVal:'',gift:false,card:0,editIndex:null}, activeOcc=null;
 
 /* Greeting cards included with gift packaging. The five occasions are the
    strongest gifting moments for this product in Israel: a new baby and a
@@ -921,10 +923,21 @@ function giftCardText(){
   var nm=(pdp.name&&pdp.nameVal.trim())?pdp.nameVal.trim():'';
   return nm ? msg+' — '+nm : msg;
 }
+// Syncs the personalization controls (name toggle, gift switch, gift cards)
+// to the current pdp state. Pulled out of renderProduct so editCartItem()
+// can reuse it after overriding pdp from an existing cart line.
+function syncPersonalizationUI(){
+  document.querySelectorAll('.opt').forEach(function(o){ o.classList.toggle('active', o.dataset.name===(pdp.name?'on':'off')); });
+  document.getElementById('nameField').classList.toggle('show', pdp.name);
+  document.getElementById('nameInput').value = pdp.nameVal;
+  document.getElementById('charCount').textContent = pdp.nameVal.length;
+  document.getElementById('giftSwitch').classList.toggle('on', pdp.gift);
+  renderGiftCards();
+}
 function renderProduct(id, keep){
   var c = CHARACTERS.filter(function(x){return x.id===id;})[0];
   if(!c) return;
-  if(!keep){ pdp={char:c,name:false,nameVal:'',gift:false,card:0}; } else { pdp.char=c; }
+  if(!keep){ pdp={char:c,name:false,nameVal:'',gift:false,card:0,editIndex:null}; } else { pdp.char=c; }
   document.getElementById('pdpName').textContent = ch(c).name;
   document.getElementById('pdpCrumb').textContent = ch(c).name;
   document.getElementById('pdpRole').textContent = ch(c).role;
@@ -933,12 +946,7 @@ function renderProduct(id, keep){
   document.getElementById('pdpBullets').innerHTML = ch(c).bullets.map(function(b){ return '<li>'+esc(b)+'</li>'; }).join('');
   document.getElementById('optNamePrice').textContent = '+'+money(PRICES.name);
   document.getElementById('giftAddPrice').textContent = (LANG==='he'?'קופסה, סרט וכרטיס אישי · +':'Box, ribbon & card · +')+money(PRICES.gift);
-  document.querySelectorAll('.opt').forEach(function(o){ o.classList.toggle('active', o.dataset.name===(pdp.name?'on':'off')); });
-  document.getElementById('nameField').classList.toggle('show', pdp.name);
-  document.getElementById('nameInput').value = pdp.nameVal;
-  document.getElementById('charCount').textContent = pdp.nameVal.length;
-  document.getElementById('giftSwitch').classList.toggle('on', pdp.gift);
-  renderGiftCards();
+  syncPersonalizationUI();
 
   var acc=[['acc_made_t','acc_made_b'],['acc_mat_t','acc_mat_b'],['acc_size_t','acc_size_b'],['acc_care_t','acc_care_b'],['acc_ship_t','acc_ship_b'],['acc_pers_t','acc_pers_b']];
   document.getElementById('pdpAcc').innerHTML = acc.map(function(a){
@@ -966,6 +974,7 @@ function renderProduct(id, keep){
     };
   });
   refreshTotal();
+  updateEditButtons();
 }
 function refreshTotal(){
   document.getElementById('pdpTotal').textContent = money(priceNow());
@@ -1007,11 +1016,42 @@ function scrollToSection(id){
 /* ---------- cart ---------- */
 function addToCart(){
   var c=pdp.char; if(!c) return;
-  cart.push({ id:c.id, char:c, name:pdp.name?pdp.nameVal:'', gift:pdp.gift,
-              cardOcc: pdp.gift ? GIFT_CARDS[pdp.card][LANG].occ : '',
-              cardMsg: pdp.gift ? GIFT_CARDS[pdp.card][LANG].msg : '',
-              price:priceNow() });
+  var item={ id:c.id, char:c, name:pdp.name?pdp.nameVal:'', gift:pdp.gift,
+             cardOcc: pdp.gift ? GIFT_CARDS[pdp.card][LANG].occ : '',
+             cardMsg: pdp.gift ? GIFT_CARDS[pdp.card][LANG].msg : '',
+             price:priceNow() };
+  if(pdp.editIndex!=null && cart[pdp.editIndex]){ cart[pdp.editIndex]=item; pdp.editIndex=null; }
+  else { cart.push(item); }
   updateCount(); renderCart(); openCart();
+}
+// Opens a cart line for editing: loads its doll's full product page, pre-fills
+// the personalization state from the existing cart entry, and marks pdp so the
+// next addToCart() replaces that line instead of appending a new one.
+function editCartItem(i){
+  var item=cart[i]; if(!item) return;
+  closeCart();
+  renderProduct(item.id);
+  pdp.name = !!item.name;
+  pdp.nameVal = item.name || '';
+  pdp.gift = !!item.gift;
+  if(item.gift && item.cardOcc){
+    var idx = GIFT_CARDS.findIndex(function(g){ return g[LANG].occ===item.cardOcc || g.he.occ===item.cardOcc || g.en.occ===item.cardOcc; });
+    pdp.card = idx>=0 ? idx : 0;
+  }
+  pdp.editIndex = i;
+  syncPersonalizationUI();
+  refreshTotal();
+  updateEditButtons();
+  go('product');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+// Add/Update button label follows whether we're editing an existing line.
+function updateEditButtons(){
+  var editing = pdp.editIndex!=null;
+  var label = editing ? t('cart_update') : t('add_cart');
+  var add=document.getElementById('addToCart'), sticky=document.getElementById('stickyAdd');
+  if(add) add.textContent=label;
+  if(sticky) sticky.textContent=label;
 }
 function quickAdd(id, btn){
   var c=CHARACTERS.filter(function(x){return x.id===id;})[0]; if(!c) return;
@@ -1037,13 +1077,19 @@ function renderCart(){
       + '<div class="ci-meta">'+(it.name? t('ci_name')+esc(it.name) : t('ci_noname'))+(it.gift? ' · '+t('ci_gift') : '')+'</div>'
       + (it.gift&&it.cardMsg ? '<div class="ci-card">'+esc(it.cardOcc)+': "'+esc(it.cardMsg)+'"</div>' : '')
       + '<div class="ci-price">'+money(it.price)+'</div>'
-      + '<span class="ci-remove" data-rm="'+i+'">'+t('cart_remove')+'</span>'
+      + '<div class="ci-actions">'
+        + '<span class="ci-edit" data-edit="'+i+'">'+t('cart_edit')+'</span>'
+        + '<span class="ci-remove" data-rm="'+i+'">'+t('cart_remove')+'</span>'
+      + '</div>'
       + '</div></div>';
   }).join('');
   foot.style.display='block';
   document.getElementById('cartTotal').textContent = money(orderTotal());
   orderRef = newOrderRef();               // fresh code for the current cart contents
   document.getElementById('checkoutWa').href = waOrder();
+  body.querySelectorAll('[data-edit]').forEach(function(b){
+    b.onclick=function(){ editCartItem(Number(b.dataset.edit)); };
+  });
   body.querySelectorAll('[data-rm]').forEach(function(b){
     b.onclick=function(){ cart.splice(Number(b.dataset.rm),1); updateCount(); renderCart(); };
   });
