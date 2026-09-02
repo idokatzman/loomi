@@ -1,35 +1,20 @@
-// Cross-platform port of build-site.ps1 — inlines the product photos into
-// template.html as base64 so the site ships as one self-contained file.
-// Used by both local builds and the GitHub Pages workflow (which runs on Linux).
+// Copies template.html -> index.html. Historically this also inlined the
+// product photos as base64 so the site shipped as one self-contained file;
+// that stopped scaling once the doll count grew past a handful (every photo
+// on every page load, no browser caching), so template.html now references
+// real files in images/ directly and this step is just a straight copy —
+// kept as its own script/step so the existing edit->build->deploy habit and
+// the GitHub Pages workflow don't need to change.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
-const imagesDir = join(root, 'images');
-
-const MAP = {
-  IMG_CAT: 'cat-main-sm.jpg',
-  IMG_RACOON: 'raccoon-main-sm.jpg',
-  IMG_DOG: 'dog-main-sm.jpg',
-  IMG_BEAR: 'bear-main-sm.jpg',
-  IMG_FAMILY: 'family-main-sm.jpg',
-  IMG_PAIR1: 'pairs-chairs-sm.jpg',
-  IMG_PAIR2: 'dog-bear-pair-sm.jpg',
-};
-
-let html = readFileSync(join(root, 'template.html'), 'utf8');
-
-for (const [token, file] of Object.entries(MAP)) {
-  const b64 = readFileSync(join(imagesDir, file)).toString('base64');
-  const before = html;
-  html = html.replaceAll(`{{${token}}}`, `data:image/jpeg;base64,${b64}`);
-  if (before === html) console.warn(`warning: {{${token}}} not found in template`);
-}
+const html = readFileSync(join(root, 'template.html'), 'utf8');
 
 const leftover = html.match(/\{\{[A-Z0-9_]+\}\}/g);
 if (leftover) {
-  console.error('unreplaced placeholders:', [...new Set(leftover)].join(', '));
+  console.error('unreplaced placeholders (should not exist anymore):', [...new Set(leftover)].join(', '));
   process.exit(1);
 }
 

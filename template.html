@@ -116,7 +116,9 @@ section{padding:clamp(64px,8vw,110px) 0}
 
 /* pairs band */
 .pairs{background:var(--ivory)}
-.pairs-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+/* auto-fit rather than a fixed 2 columns, so a 3rd/4th pair added later just
+   reflows instead of needing a CSS change */
+.pairs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:30px}
 .pair-card{position:relative;border-radius:24px;overflow:hidden;box-shadow:var(--shadow-m)}
 .pair-card img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .5s}
 .pair-card:hover img{transform:scale(1.04)}
@@ -192,6 +194,10 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
 .pdp .price-lg{font-size:1.45rem;font-weight:700;margin-bottom:20px}
 .pdp .desc-intro{color:var(--brown-deep);font-size:1.06rem;margin-bottom:16px;max-width:46ch}
 .pdp-bullets{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:28px}
+.safety-note{background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 16px;
+  font-size:.86rem;color:var(--brown-deep);line-height:1.6;margin-bottom:24px}
+/* Hebrew-only, per the maker — English buyers don't get this notice */
+body.en .safety-note{display:none}
 .pdp-bullets li{position:relative;padding-inline-start:22px;color:var(--brown-deep);font-size:1rem}
 .pdp-bullets li::before{content:'';position:absolute;inset-inline-start:0;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--clay)}
 .gallery{display:flex;flex-direction:column;gap:14px}
@@ -350,7 +356,7 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
       </div>
     </div>
     <div class="hero-photo">
-      <img src="{{IMG_PAIR1}}" alt="LOOMI">
+      <img src="images/pairs-chairs-sm.jpg" alt="LOOMI">
       <div class="hero-badge" data-t="tagline">בחרו חבר. תנו לו שם. והוא שלכם.</div>
     </div>
   </section>
@@ -373,16 +379,7 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
         <h2 data-t="pairs_h">הם באים בזוגות.</h2>
         <p data-t="pairs_sub">כל שניים נסרגו יחד ומשלימים אחד את השני — מושלם למתנה כפולה, לאחים, או פשוט כי הם לא אוהבים להיפרד.</p>
       </div>
-      <div class="pairs-grid">
-        <div class="pair-card">
-          <img src="{{IMG_PAIR1}}" alt="">
-          <div class="pair-cap"><h3 data-t="pair1_h">מיצי וריקו</h3><p data-t="pair1_p">החתולה השקטה והרקון ההרפתקן</p></div>
-        </div>
-        <div class="pair-card">
-          <img src="{{IMG_PAIR2}}" alt="">
-          <div class="pair-cap"><h3 data-t="pair2_h">טופי ולולה</h3><p data-t="pair2_p">הכלבלב הסקרן והדובה העדינה</p></div>
-        </div>
-      </div>
+      <div class="pairs-grid" id="pairsGrid"></div>
     </div>
   </section>
 
@@ -398,7 +395,7 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
 
   <section class="craft" id="craft">
     <div class="wrap craft-inner">
-      <div class="craft-photo"><img src="{{IMG_PAIR1}}" alt=""></div>
+      <div class="craft-photo"><img src="images/pairs-chairs-sm.jpg" alt="" loading="lazy"></div>
       <div>
         <div class="eyebrow" data-t="craft_eyebrow">המלאכה</div>
         <h2 data-t="craft_h">נעשה בעבודת יד.</h2>
@@ -449,6 +446,7 @@ footer{background:var(--ivory);border-top:1px solid var(--line);padding:66px 0 2
         <div class="price-lg" id="pdpPrice"></div>
         <p class="desc-intro" id="pdpDesc"></p>
         <ul class="pdp-bullets" id="pdpBullets"></ul>
+        <p class="safety-note" id="safetyNote">⚠️ הבובה מכילה חלקים קטנים (עיניים בטיחותיות). אין להשאיר ילד/ה ללא השגחה בזמן משחק.</p>
 
         <div class="pers-block">
           <div class="lbl" data-t="pdp_pers_lbl">הפכו אותו לשלכם</div>
@@ -573,13 +571,19 @@ var CONFIG = { whatsapp:'972545224288' };
 var PRICES = { base:249, name:39, gift:29 };
 function money(n){ return '₪' + n; }
 
+// Real file paths, not embedded base64 — at 4 dolls the inlined version was
+// fine, but it doesn't scale: every doll's every photo would ship on every
+// page load with no browser caching. Real paths are cached per-file and can
+// be lazy-loaded. To add doll #5+: drop its photo in images/ and add one
+// line here.
 var PHOTOS = {
-  cat:'{{IMG_CAT}}', raccoon:'{{IMG_RACOON}}', dog:'{{IMG_DOG}}', bear:'{{IMG_BEAR}}',
-  family:'{{IMG_FAMILY}}', pair1:'{{IMG_PAIR1}}', pair2:'{{IMG_PAIR2}}'
+  cat:'images/cat-main-sm.jpg', raccoon:'images/raccoon-main-sm.jpg',
+  dog:'images/dog-main-sm.jpg', bear:'images/bear-main-sm.jpg',
+  family:'images/family-main-sm.jpg', pair1:'images/pairs-chairs-sm.jpg', pair2:'images/dog-bear-pair-sm.jpg'
 };
 
 var CHARACTERS = [
-  { id:'mitzi', img:PHOTOS.cat, pair:'pair_a', gallery:['cat','pair1','family'],
+  { id:'mitzi', featured:true, img:PHOTOS.cat, pair:'pair_a', gallery:['cat','pair1','family'],
     he:{ name:'מיצי', role:'החתולה השקטה', blurb:'שמלה חומה, פסים על השרוולים וזנב ארוך.',
       desc:'מיצי היא החתולה השקטה של החבורה — יושבת בפינה שלה, מסתכלת על העולם, ותמיד מוכנה לחיבוק.',
       bullets:['חתולה סרוגה בעבודת יד מחוט כותנה','שמלת סרפן חומה עם שרוולים בדוגמת פסים','אוזניים מחודדות, שפם רקום וזנב ארוך','גובה: כ־35 ס״מ (כולל אוזניים)','כל בובה מעט שונה — כי היא נעשית בעבודת יד'],
@@ -589,7 +593,7 @@ var CHARACTERS = [
       bullets:['Hand-crocheted cat in soft cotton yarn','Brown pinafore dress with striped sleeves','Pointed ears, embroidered whiskers and a long tail','Height: ~35 cm (including ears)','Each one is slightly different — because it is handmade'],
       dims:'Height: ~35 cm including ears · Tail: ~18 cm extra. Hand-crocheted and assembled, so each one differs slightly.' } },
 
-  { id:'rico', img:PHOTOS.raccoon, pair:'pair_a', gallery:['raccoon','pair1','family'],
+  { id:'rico', featured:true, img:PHOTOS.raccoon, pair:'pair_a', gallery:['raccoon','pair1','family'],
     he:{ name:'ריקו', role:'הרקון ההרפתקן', blurb:'חולצה חרדל, תיק על הגב וזנב מפוספס.',
       desc:'ריקו תמיד מוכן לצאת לדרך — עם התיק על הגב והמסכה שמסגירה שהוא זומם משהו.',
       bullets:['רקון סרוג בעבודת יד מחוט כותנה','חולצת חרדל ותיק גב סרוג בצבע חלוד','מסכה כהה אופיינית וזנב מפוספס','גובה: כ־38 ס״מ (הכי גדול בחבורה)','כל בובה מעט שונה — כי היא נעשית בעבודת יד'],
@@ -599,7 +603,7 @@ var CHARACTERS = [
       bullets:['Hand-crocheted raccoon in soft cotton yarn','Mustard shirt and a rust-colored crocheted backpack','Signature dark mask and a striped tail','Height: ~38 cm (the biggest of the group)','Each one is slightly different — because it is handmade'],
       dims:'Height: ~38 cm · Striped tail: ~20 cm extra. Hand-crocheted and assembled, so each one differs slightly.' } },
 
-  { id:'toffee', img:PHOTOS.dog, pair:'pair_b', gallery:['dog','pair2','family'],
+  { id:'toffee', featured:true, img:PHOTOS.dog, pair:'pair_b', gallery:['dog','pair2','family'],
     he:{ name:'טופי', role:'הכלבלב הסקרן', blurb:'אוברול תכלת עם כפתורי זהב ונעליים לבנות.',
       desc:'טופי הוא הראשון שקופץ לכל הרפתקה — עם כתם חום סביב העין ואוזן אחת שתמיד מורמת.',
       bullets:['כלבלב סרוג בעבודת יד מחוט כותנה','אוברול תכלת עם כתפיות וכפתורי זהב','כתם חום סביב העין ונעליים לבנות סרוגות','גובה: כ־33 ס״מ','כל בובה מעט שונה — כי היא נעשית בעבודת יד'],
@@ -609,7 +613,7 @@ var CHARACTERS = [
       bullets:['Hand-crocheted puppy in soft cotton yarn','Light-blue overalls with straps and gold buttons','Brown eye patch and crocheted white shoes','Height: ~33 cm','Each one is slightly different — because it is handmade'],
       dims:'Height: ~33 cm from foot to ear tips. Hand-crocheted and assembled, so each one differs slightly.' } },
 
-  { id:'lola', img:PHOTOS.bear, pair:'pair_b', gallery:['bear','pair2','family'],
+  { id:'lola', featured:true, img:PHOTOS.bear, pair:'pair_b', gallery:['bear','pair2','family'],
     he:{ name:'לולה', role:'הדובה העדינה', blurb:'חצאית מלמלה בוורוד ותכלת וסרט בראש.',
       desc:'לולה היא הרכה שבחבורה — עם חצאית מלמלה, סרט קטן בראש, ומבט שאומר שהכול יהיה בסדר.',
       bullets:['דובה סרוגה בעבודת יד מחוט כותנה','חצאית מלמלה בשכבות ורוד ותכלת','סרט ורוד בראש וכפות בגוון שמנת','גובה: כ־34 ס״מ','כל בובה מעט שונה — כי היא נעשית בעבודת יד'],
@@ -618,6 +622,17 @@ var CHARACTERS = [
       desc:'Lola is the soft one — a ruffled skirt, a little bow, and a look that says everything will be fine.',
       bullets:['Hand-crocheted bear in soft cotton yarn','Layered ruffle skirt in pink and light blue','Pink head bow and cream-colored paws','Height: ~34 cm','Each one is slightly different — because it is handmade'],
       dims:'Height: ~34 cm from foot to ear tips. Hand-crocheted and assembled, so each one differs slightly.' } }
+];
+
+// Which characters are sold/shown as a pair, and their own lifestyle photo +
+// caption. Data-driven so adding pair #3 is one object, not hand-written HTML.
+var PAIRS = [
+  { img:PHOTOS.pair1, characterIds:['mitzi','rico'],
+    he:{ h:'מיצי וריקו', p:'החתולה השקטה והרקון ההרפתקן' },
+    en:{ h:'Mitzi and Rico', p:'The quiet cat and the adventurer raccoon' } },
+  { img:PHOTOS.pair2, characterIds:['toffee','lola'],
+    he:{ h:'טופי ולולה', p:'הכלבלב הסקרן והדובה העדינה' },
+    en:{ h:'Toffee and Lola', p:'The curious pup and the gentle bear' } }
 ];
 
 var I18N = {
@@ -631,8 +646,6 @@ var I18N = {
     meet_eyebrow:'הקולקציה', meet_h:'לכל אחד יש אופי.', meet_sub:'ארבע דמויות מקוריות, סרוגות ביד — כל אחת עם הסיפור שלה.',
     pairs_eyebrow:'טוב יותר בשניים', pairs_h:'הם באים בזוגות.',
     pairs_sub:'כל שניים נסרגו יחד ומשלימים אחד את השני — מושלם למתנה כפולה, לאחים, או פשוט כי הם לא אוהבים להיפרד.',
-    pair1_h:'מיצי וריקו', pair1_p:'החתולה השקטה והרקון ההרפתקן',
-    pair2_h:'טופי ולולה', pair2_p:'הכלבלב הסקרן והדובה העדינה',
     pair_a:'מיצי & ריקו', pair_b:'טופי & לולה',
     how_eyebrow:'פשוט מאוד', how_h:'שלושה צעדים.', step_word:'שלב',
     step1_t:'בחרו חבר', step1_d:'מצאו את הדמות שמדברת אליכם.',
@@ -687,8 +700,6 @@ var I18N = {
     meet_eyebrow:'The Collection', meet_h:'Each one has a character.', meet_sub:'Four original hand-crocheted characters — each with its own story.',
     pairs_eyebrow:'Better in twos', pairs_h:'They come in pairs.',
     pairs_sub:'Each two were crocheted together and complete each other — perfect as a double gift, for siblings, or simply because they do not like being apart.',
-    pair1_h:'Mitzi & Rico', pair1_p:'The quiet cat and the adventurer raccoon',
-    pair2_h:'Toffee & Lola', pair2_p:'The curious pup and the gentle bear',
     pair_a:'Mitzi & Rico', pair_b:'Toffee & Lola',
     how_eyebrow:'Beautifully simple', how_h:'Three steps.', step_word:'Step',
     step1_t:'Choose a friend', step1_d:'Find the character that speaks to you.',
@@ -830,25 +841,41 @@ function applyLang(){
   document.querySelectorAll('[data-t]').forEach(function(el){ var v=d[el.dataset.t]; if(v!=null) el.innerHTML=v; });
   document.querySelectorAll('[data-t-ph]').forEach(function(el){ var v=d[el.dataset.tPh]; if(v!=null) el.placeholder=v; });
   document.querySelectorAll('[data-lang]').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===LANG); });
-  renderFriends(); renderHow(); renderCraftList(); renderOccasions(); updateWaLinks();
+  renderFriends(); renderPairs(); renderHow(); renderCraftList(); renderOccasions(); updateWaLinks();
   if(pdp.char) renderProduct(pdp.char.id, true);
   if(cart.length) renderCart();
 }
+// Shared by the homepage spotlight and the (future) full collection view, so
+// a doll's card looks identical wherever it's shown.
+function friendCardHTML(c){
+  return '<div class="friend-card" data-go="'+c.id+'">'
+    + '<div class="friend-art">'
+      + '<img src="'+c.img+'" alt="'+esc(ch(c).name)+'" loading="lazy">'
+      + (c.pair ? '<span class="pair-tag">'+t(c.pair)+'</span>' : '')
+      + '<button class="quick-add" type="button" data-quick="'+c.id+'">'+t('quick_add')+'</button>'
+    + '</div>'
+    + '<div class="friend-info">'
+      + '<h3>'+esc(ch(c).name)+'</h3>'
+      + '<div class="role">'+esc(ch(c).role)+'</div>'
+      + '<div class="blurb">'+esc(ch(c).blurb)+'</div>'
+      + '<div class="price">'+money(PRICES.base)+'</div>'
+      + '<span class="link-arrow">'+(LANG==='he'?'להכיר את '+ch(c).name+' ←':'Meet '+ch(c).name+' →')+'</span>'
+    + '</div></div>';
+}
 function renderFriends(){
-  document.getElementById('friendGrid').innerHTML = CHARACTERS.map(function(c){
-    return '<div class="friend-card" data-go="'+c.id+'">'
-      + '<div class="friend-art">'
-        + '<img src="'+c.img+'" alt="'+esc(ch(c).name)+'" loading="lazy">'
-        + '<span class="pair-tag">'+t(c.pair)+'</span>'
-        + '<button class="quick-add" type="button" data-quick="'+c.id+'">'+t('quick_add')+'</button>'
-      + '</div>'
-      + '<div class="friend-info">'
-        + '<h3>'+esc(ch(c).name)+'</h3>'
-        + '<div class="role">'+esc(ch(c).role)+'</div>'
-        + '<div class="blurb">'+esc(ch(c).blurb)+'</div>'
-        + '<div class="price">'+money(PRICES.base)+'</div>'
-        + '<span class="link-arrow">'+(LANG==='he'?'להכיר את '+ch(c).name+' ←':'Meet '+ch(c).name+' →')+'</span>'
-      + '</div></div>';
+  // Opt-in: only characters marked featured show on the homepage spotlight,
+  // so adding doll #5+ later doesn't silently pile onto this curated section.
+  var featured = CHARACTERS.filter(function(c){ return c.featured; });
+  document.getElementById('friendGrid').innerHTML = featured.map(friendCardHTML).join('');
+}
+function renderPairs(){
+  var grid=document.getElementById('pairsGrid'); if(!grid) return;
+  grid.innerHTML = PAIRS.map(function(p){
+    var cap = p[LANG] || p.he;
+    return '<div class="pair-card">'
+      + '<img src="'+p.img+'" alt="" loading="lazy">'
+      + '<div class="pair-cap"><h3>'+esc(cap.h)+'</h3><p>'+esc(cap.p)+'</p></div>'
+      + '</div>';
   }).join('');
 }
 function renderHow(){
