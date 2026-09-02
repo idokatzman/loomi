@@ -31,7 +31,10 @@ body.en h1,body.en h2,body.en h3{font-family:var(--serif-en);letter-spacing:0}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 48px}
+/* padding-left/right only — never the shorthand. .hero shares this element
+   (class="hero wrap") and sets its own padding-top/bottom; a shorthand here
+   would silently reset those to 0 whenever this rule wins the cascade. */
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:48px;padding-right:48px}
 .eyebrow{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--clay);font-weight:600}
 
 /* buttons */
@@ -303,7 +306,7 @@ body.en .safety-note{display:none}
   .pdp{padding-bottom:96px}
 }
 @media(max-width:640px){
-  .wrap{padding:0 26px}
+  .wrap{padding-left:26px;padding-right:26px}
   .logo{font-size:1.3rem}
   .nav-right{gap:12px}
   .friend-grid{grid-template-columns:1fr}
@@ -342,7 +345,7 @@ body.en .safety-note{display:none}
 
   <section class="hero wrap">
     <div>
-      <div class="eyebrow" data-t="hero_eyebrow">עבודת יד · כותנה · מהדורה ראשונה</div>
+      <div class="eyebrow" data-t="hero_eyebrow">עבודת יד · כותנה</div>
       <h1 data-t="hero_h">חבר קטן,<br>שנעשה בעבודת יד.</h1>
       <p class="hero-sub" data-t="hero_sub">ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית. ואם תרצו, עם השם שלכם סרוג עליהן.</p>
       <div class="hero-cta">
@@ -532,7 +535,7 @@ body.en .safety-note{display:none}
     </div>
     <div class="foot-bottom">
       <span data-t="foot_rights">© 2026 LOOMI · נעשה באהבה בישראל</span>
-      <span data-t="foot_made">עבודת יד · מהדורה מוגבלת</span>
+      <span data-t="foot_made">עבודת יד</span>
     </div>
   </div>
 </footer>
@@ -638,7 +641,7 @@ var PAIRS = [
 var I18N = {
   he:{
     nav_friends:'החברים', nav_story:'הסיפור שלנו', nav_gifts:'מתנות', nav_craft:'עבודת יד', nav_cart:'עגלה',
-    hero_eyebrow:'עבודת יד · כותנה · מהדורה ראשונה', hero_h:'חבר קטן,<br>שנעשה בעבודת יד.',
+    hero_eyebrow:'עבודת יד · כותנה', hero_h:'חבר קטן,<br>שנעשה בעבודת יד.',
     hero_sub:'ארבע דמויות סרוגות ביד — שתי חברויות קטנות שמחכות למצוא בית. ואם תרצו, עם השם שלכם סרוג עליהן.',
     hero_cta1:'הכירו את החברים', hero_cta2:'איך זה נעשה',
     tagline:'בחרו חבר. תנו לו שם. והוא שלכם.',
@@ -668,7 +671,7 @@ var I18N = {
     gift_note_partner:'"בשבילך, באהבה"', gift_note_just:'"סתם, כי מגיע לך"', gift_note_default:'"לאמא, באהבה"',
     foot_tagline:'חברים קטנים סרוגים ביד, שמקבלים את השם שלכם.',
     foot_shop:'חנות', foot_help:'עזרה', foot_contact:'צרו קשר', foot_follow:'עקבו אחרינו',
-    foot_rights:'© 2026 LOOMI · נעשה באהבה בישראל', foot_made:'עבודת יד · מהדורה מוגבלת',
+    foot_rights:'© 2026 LOOMI · נעשה באהבה בישראל', foot_made:'עבודת יד',
     crumb_home:'בית',
     quick_add:'הוספה מהירה', quick_added:'נוסף ✓',
     pdp_pers_lbl:'הפכו אותו לשלכם', pdp_pers_hint:'אפשר להוסיף שם אישי, סרוג ביד על החבר.',
@@ -692,7 +695,7 @@ var I18N = {
   },
   en:{
     nav_friends:'The Friends', nav_story:'Our Story', nav_gifts:'Gifts', nav_craft:'Handmade', nav_cart:'Cart',
-    hero_eyebrow:'Handmade · Cotton · First Edition', hero_h:'A little friend,<br>made by hand.',
+    hero_eyebrow:'Handmade · Cotton', hero_h:'A little friend,<br>made by hand.',
     hero_sub:'Four hand-crocheted characters — two little friendships waiting for a home. And if you like, with your name stitched on.',
     hero_cta1:'Meet the friends', hero_cta2:'How it is made',
     tagline:'Choose a friend. Give it a name. It is yours.',
@@ -722,7 +725,7 @@ var I18N = {
     gift_note_partner:'"For you, with love"', gift_note_just:'"Just because"', gift_note_default:'"For Mom, with love"',
     foot_tagline:'Little hand-crocheted friends that take on your name.',
     foot_shop:'Shop', foot_help:'Help', foot_contact:'Contact', foot_follow:'Follow',
-    foot_rights:'© 2026 LOOMI · Made with love in Israel', foot_made:'Handmade · Limited edition',
+    foot_rights:'© 2026 LOOMI · Made with love in Israel', foot_made:'Handmade',
     crumb_home:'Home',
     quick_add:'Quick add', quick_added:'Added ✓',
     pdp_pers_lbl:'Make it yours', pdp_pers_hint:'You can add a personal name, crocheted by hand.',
