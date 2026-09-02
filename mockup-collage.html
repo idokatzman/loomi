@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOOMI — הדמיית קולאז'</title>
+<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Heebo:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF7F2; --card:#fff; --cream:#F1EBE1; --oat:#E6DCCB; --beige:#D9CBB6;
+  --brown:#6B5540; --ink:#2B2622; --muted:#8A7F70; --clay:#B67A5E; --line:#E7DFD2;
+  --hand:'Amatic SC',cursive; --sans:'Heebo',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.7;padding-bottom:80px;font-weight:300}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+header{padding:50px 0 28px;text-align:center;border-bottom:1px solid var(--line);margin-bottom:40px}
+h1{font-family:var(--hand);font-weight:700;font-size:3.4rem;line-height:1;margin-bottom:8px}
+.sub{color:var(--muted);max-width:60ch;margin:0 auto}
+.eyebrow{font-size:.7rem;letter-spacing:.3em;color:var(--clay);font-weight:500;margin-bottom:10px}
+
+.opt{margin-bottom:56px}
+.opt-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.opt-num{font-family:var(--hand);font-weight:700;font-size:2rem;color:var(--beige)}
+.opt-name{font-family:var(--hand);font-weight:700;font-size:1.9rem}
+.opt-why{color:var(--muted);font-size:.96rem;margin-bottom:24px;max-width:72ch}
+.opt-why b{color:var(--brown);font-weight:600}
+
+/* option 1: real group photo as hero */
+.hero-mock{border-radius:26px;overflow:hidden;box-shadow:0 14px 40px rgba(60,45,30,.14);position:relative;background:var(--cream)}
+.hero-mock img{width:100%;max-height:520px;object-fit:cover;object-position:center 30%;display:block}
+.hero-mock .badge{position:absolute;bottom:22px;inset-inline-start:22px;background:rgba(250,247,242,.95);
+  padding:10px 20px;border-radius:100px;font-family:var(--hand);font-weight:700;font-size:1.3rem;color:var(--brown)}
+
+/* option 2: lineup strip using individual photos */
+.lineup{background:var(--cream);border-radius:26px;padding:40px 30px;box-shadow:0 14px 40px rgba(60,45,30,.10)}
+.lineup-row{display:flex;justify-content:center;align-items:flex-end;gap:0;flex-wrap:wrap}
+.lineup-doll{position:relative;width:220px;text-align:center;margin:0 -6px}
+.lineup-doll .frame{background:var(--card);border-radius:20px;overflow:hidden;aspect-ratio:3/4;box-shadow:0 8px 22px rgba(60,45,30,.10);
+  border:1px solid var(--line);transition:transform .25s}
+.lineup-doll .frame img{width:100%;height:100%;object-fit:cover;object-position:center 25%}
+.lineup-doll:hover .frame{transform:translateY(-8px)}
+.lineup-doll .nm{font-family:var(--hand);font-weight:700;font-size:1.5rem;margin-top:12px}
+.lineup-doll .rl{font-size:.8rem;color:var(--clay);font-weight:600}
+
+.limits{background:var(--card);border:1px dashed var(--beige);border-radius:18px;padding:24px 26px}
+.limits h3{font-family:var(--hand);font-weight:700;font-size:1.7rem;margin-bottom:10px}
+.limits p{color:var(--brown);font-size:.95rem;margin-bottom:10px}
+.limits p:last-child{margin-bottom:0}
+.limits b{color:var(--ink)}
+
+.note{background:var(--cream);border-inline-start:3px solid var(--clay);border-radius:0 14px 14px 0;padding:22px 26px;margin-top:16px}
+.note h3{font-family:var(--hand);font-weight:700;font-size:1.7rem;margin-bottom:8px}
+.note p{color:var(--brown);font-size:.95rem}
+.note p+p{margin-top:9px}
+
+@media(max-width:640px){ .lineup-doll{width:44%} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">LOOMI</div>
+    <h1>הדמיית קולאז' — שתי אפשרויות</h1>
+    <p class="sub">בהשראת "Animal Friends of Pica Pau" ששלחת. שתיהן משתמשות בתמונות שכבר יש לך — בלי צילום חדש ובלי הסרת רקע.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- Option 1 -->
+  <div class="opt">
+    <div class="opt-head"><span class="opt-num">01</span><span class="opt-name">התמונה האמיתית שכבר יש לך</span></div>
+    <p class="opt-why">גיליתי שיש לך כבר <b>צילום אמיתי של כל 4 הבובות ביחד</b> (על ערימת ספרים). לא צריך לצלם שוב ולא לגעת בקוד — פשוט משתמשים בה כבאנר במקום בתמונת הזוגות הנוכחית.</p>
+    <div class="hero-mock">
+      <img src="images/family-main-sm.jpg" alt="">
+      <div class="badge">בחרו חבר. תנו לו שם. והוא שלכם.</div>
+    </div>
+  </div>
+
+  <!-- Option 2 -->
+  <div class="opt">
+    <div class="opt-head"><span class="opt-num">02</span><span class="opt-name">שורת חברים מסודרת</span></div>
+    <p class="opt-why">כל בובה בכרטיס נפרד, אבל כולן על אותו רקע חם — מרגיש כמו קבוצה אחת בלי צורך בגזירה מדויקת. <b>הכי קרוב לתחושה של הכריכה ששלחת</b>, מתוך מה שיש היום.</p>
+    <div class="lineup">
+      <div class="lineup-row">
+        <div class="lineup-doll"><div class="frame"><img src="images/cat-main-sm.jpg" alt=""></div><div class="nm">מיצי</div><div class="rl">החתולה השקטה</div></div>
+        <div class="lineup-doll"><div class="frame"><img src="images/raccoon-main-sm.jpg" alt=""></div><div class="nm">ריקו</div><div class="rl">הרקון ההרפתקן</div></div>
+        <div class="lineup-doll"><div class="frame"><img src="images/dog-main-sm.jpg" alt=""></div><div class="nm">טופי</div><div class="rl">הכלבלב הסקרן</div></div>
+        <div class="lineup-doll"><div class="frame"><img src="images/bear-main-sm.jpg" alt=""></div><div class="nm">לולה</div><div class="rl">הדובה העדינה</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="limits">
+    <h3>מה שלא אפשר בלי משהו נוסף ממך</h3>
+    <p>הכריכה של Pica Pau מציגה דמויות <b>גזורות לגמרי מהרקע</b>, עומדות "באוויר" זו לצד זו על משטח אחיד — ממש כמו שעשינו לברוני פעם. זה דורש אחת משתי אלה:</p>
+    <p>🖼️ <b>תמונות עם רקע שקוף</b> לכל בובה — אותה שיטה שעבדה מצוין עם ברוני (remove.bg, 2 דקות לתמונה). ניסיתי הסרת רקע אוטומטית על תמונות דומות לאלה ו<b>זה נכשל</b> — הצבעים הבהירים של הבובות קרובים מדי לקיר.</p>
+    <p>📸 <b>או צילום חדש</b> — כל 4 הבובות מסודרות יחד, יד ביד, על רקע אחיד אחד.</p>
+    <p>עם קבצים שקופים, אני יכול לבנות קולאז' אמיתי שנראה בדיוק כמו הכריכה — הרבה יותר "פרימיום" משתי האפשרויות למעלה.</p>
+  </div>
+
+  <div class="note">
+    <h3>ההמלצה שלי</h3>
+    <p>אם אתה רוצה משהו <b>עכשיו, בלי עבודה נוספת</b> — אפשרות 01 (התמונה האמיתית) היא הכי אמינה, כי היא צילום אמיתי ולא הרכבה.</p>
+    <p>אם אתה מוכן להשקיע 10 דקות ב-remove.bg על 4 התמונות — אני יכול לבנות קולאז' אמיתי בסגנון Pica Pau, שיהיה משמעותית יותר מרשים משתי האפשרויות כאן.</p>
+  </div>
+
+</div>
+</body>
+</html>
