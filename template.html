@@ -104,7 +104,6 @@ section{padding:clamp(64px,8vw,110px) 0}
 .friend-art{position:relative;aspect-ratio:1/1;overflow:hidden;background:var(--cream)}
 .friend-art img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .friend-card:hover .friend-art img{transform:scale(1.05)}
-.pair-tag{position:absolute;top:12px;inset-inline-start:12px;background:rgba(247,243,236,.94);padding:5px 13px;border-radius:100px;font-size:.72rem;font-weight:700;color:var(--brown-deep);letter-spacing:.04em}
 .quick-add{position:absolute;bottom:10px;inset-inline:10px;background:var(--charcoal);color:var(--ivory);border-radius:100px;padding:11px 14px;font-size:.84rem;font-weight:600;text-align:center;opacity:0;transform:translateY(6px);transition:.22s;display:flex;align-items:center;justify-content:center}
 .friend-card:hover .quick-add{opacity:1;transform:translateY(0)}
 .quick-add.added{background:#1FA855}
@@ -649,7 +648,6 @@ var I18N = {
     meet_eyebrow:'הקולקציה', meet_h:'לכל אחד יש אופי.', meet_sub:'ארבע דמויות מקוריות, סרוגות ביד — כל אחת עם הסיפור שלה.',
     pairs_eyebrow:'טוב יותר בשניים', pairs_h:'הם באים בזוגות.',
     pairs_sub:'כל שניים נסרגו יחד ומשלימים אחד את השני — מושלם למתנה כפולה, לאחים, או פשוט כי הם לא אוהבים להיפרד.',
-    pair_a:'מיצי & ריקו', pair_b:'טופי & לולה',
     how_eyebrow:'פשוט מאוד', how_h:'שלושה צעדים.', step_word:'שלב',
     step1_t:'בחרו חבר', step1_d:'מצאו את הדמות שמדברת אליכם.',
     step2_t:'תנו לו שם', step2_d:'אפשר להוסיף שם אישי, סרוג ביד.',
@@ -703,7 +701,6 @@ var I18N = {
     meet_eyebrow:'The Collection', meet_h:'Each one has a character.', meet_sub:'Four original hand-crocheted characters — each with its own story.',
     pairs_eyebrow:'Better in twos', pairs_h:'They come in pairs.',
     pairs_sub:'Each two were crocheted together and complete each other — perfect as a double gift, for siblings, or simply because they do not like being apart.',
-    pair_a:'Mitzi & Rico', pair_b:'Toffee & Lola',
     how_eyebrow:'Beautifully simple', how_h:'Three steps.', step_word:'Step',
     step1_t:'Choose a friend', step1_d:'Find the character that speaks to you.',
     step2_t:'Give it a name', step2_d:'Add a personal name, crocheted by hand.',
@@ -854,7 +851,6 @@ function friendCardHTML(c){
   return '<div class="friend-card" data-go="'+c.id+'">'
     + '<div class="friend-art">'
       + '<img src="'+c.img+'" alt="'+esc(ch(c).name)+'" loading="lazy">'
-      + (c.pair ? '<span class="pair-tag">'+t(c.pair)+'</span>' : '')
       + '<button class="quick-add" type="button" data-quick="'+c.id+'">'+t('quick_add')+'</button>'
     + '</div>'
     + '<div class="friend-info">'
